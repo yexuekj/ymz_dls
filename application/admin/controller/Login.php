@@ -21,17 +21,17 @@ class Login extends Controller
 
         if(isset($param['is_true']) && !empty($param['is_true'])){
             $adminInfo = Db::table('admin')->where('login_number',$param['login'])->find();
-            $adminInfo['role_id'] = 1;
+            $role_id = 1;
         }else{
             $adminInfo = Db::table('user')->where('login_number',$param['login'])->find();
-            $adminInfo['role_id'] = 2;
+            $role_id = 2;
         }
         if($adminInfo){
             if(md5($param['pwd']) == $adminInfo['password']){
                 if($adminInfo['status']  != 1){
                     return $this->error([],'账号已停用');
                 }else{
-
+                    $adminInfo['role_id'] = $role_id;
                     Session('adminInfo',$adminInfo);
                     return $this->success([],'登录成功');
                 }
