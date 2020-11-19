@@ -1,0 +1,101 @@
+{include file='common/head'}
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
+    <div class="layui-form layui-form-pane">
+        <input type="hidden" name="id" value="{$data.id|default=''}">
+        <input type="hidden" name="password_1" value="{$data.password|default=''}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理员名称</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$data['admin_name']|default=''}" name="admin_name" lay-verify="required"  class="layui-input">
+            </div>
+            <label class="layui-form-label">联系电话</label>
+            <div class="layui-input-inline">
+                <input type="text" placeholder="请输入联系电话" value="{$info['phone']|default=''}" name="phone"  class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+
+            <!--<label class="layui-form-label">职位</label>-->
+            <!--<div class="layui-input-inline">-->
+            <!--<input type="text" placeholder="请输入管理职位" value="{$info['depart_id']|default=''}" name="depart_id" lay-verify="required" autocomplete="No" class="layui-input">-->
+            <!--</div>-->
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录账号</label>
+            <div class="layui-input-inline">
+                <input type="text"  value="{$data['login_number']|default=''}" name="login_number" lay-verify="required" class="layui-input">
+            </div>
+            <label class="layui-form-label">登录密码</label>
+            <div class="layui-input-inline">
+                <input type="password" placeholder="请输入密码" value="{$data['password']|default=''}" name="password" lay-verify="required" autocomplete="No" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">发言状态</label>
+            <div class="layui-input-inline">
+                <select name="status" lay-verify="required">
+                    <option value="1" {if isset($data)}{if $data.is_say == 1}selected{/if}{/if}>正常</option>
+                    <option value="2" {if isset($data)}{if $data.is_say == 2}selected{/if}{/if}>禁言</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="demo1">立即提交</button>
+                <button type="button" class="layui-btn layui-btn-primary" id="closeIframe">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+{include file='common/footer'}
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //获取角色
+        form.on('select(bank_id)', function(data){
+            var bank_id=$('select[name="bank_id"] option:checked').val();
+            var html='';
+            $.ajax({
+                url: '{:url("admin/Role/ApiGetRolePage")}',
+                type: 'POST',
+                async:false,
+                data:{bank_id:bank_id},
+                dataType:'json',
+                success: function (obj) {
+                    var data =obj.data;
+                    $.each(data,function(i,v){
+                        html+='<option value="'+v.role_id+'">'+v.name+'</option>';
+                    });
+                    $('select[name="role_id"]').html("<option value=''>没有内容了</option>"+html);
+                    form.render('select'); //这个很重要
+                }
+            });
+        });
+
+        //提交表单
+        var url='{$url}';
+        form.on('submit(demo1)', function(data){
+            $.post(url,data.field,function (obj) {
+                if(obj.code==200){
+                    parent.layer.msg(obj.msg, {icon: 6,time: 1000});
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index,data.field); //再执行关闭
+                }
+                if(obj.code==400){
+                    parent.layer.msg(obj.msg, {icon: 5,time: 1000});
+                }
+            },"JSON");
+        });
+
+        $('#closeIframe').click(function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+{include file='common/head'}
+<body class="layui-layout-body kit-layout-admin">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header" style="height: 3.76rem">
+        <div class="layui-logo" style="line-height: 3.76rem">羊毛猪代理系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <!--<ul class="layui-nav layui-layout-left">-->
+            <!--<li class="layui-nav-item"><a href="">控制台</a></li>-->
+            <!--<li class="layui-nav-item"><a href="">商品管理</a></li>-->
+            <!--<li class="layui-nav-item"><a href="">用户</a></li>-->
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="javascript:;">其它系统</a>-->
+                <!--<dl class="layui-nav-child">-->
+                    <!--<dd><a href="">邮件管理</a></dd>-->
+                    <!--<dd><a href="">消息管理</a></dd>-->
+                    <!--<dd><a href="">授权管理</a></dd>-->
+                <!--</dl>-->
+            <!--</li>-->
+        <!--</ul>-->
+        <!--<ul class="layui-nav layui-layout-right">-->
+        <!--<li class="layui-nav-item">-->
+        <!--<a href="javascript:;">-->
+        <!--</a>-->
+        <!--<dl class="layui-nav-child">-->
+        <!--<dd><a href="">基本资料</a></dd>-->
+        <!--<dd><a href="">安全设置</a></dd>-->
+        <!--</dl>-->
+        <!--</li>-->
+        <!--<li class="layui-nav-item"><a href="{:url('Login/loginOut')}">退了</a></li>-->
+        <!--</ul>-->
+        <ul class="layui-nav layui-layout-right" lay-filter="kitNavbar" kit-navbar>
+            {if($role_id == 2)}
+            <li class="layui-nav-item" >
+                可分配分钟数 {$user.price} 分钟
+            </li>
+            {/if}
+            <li class="layui-nav-item" >
+                <a href="javascript:;">
+                    <img src='http://t.cn/RCzsdCq' class="layui-nav-img">
+                    {if($role_id == 2)}
+                        {$adminInfo['user_name']|default="doyi"}
+                    {else /}
+                        {$adminInfo['admin_name']|default="doyi"}
+                    {/if}
+                </a>
+
+            </li>
+
+            <li class="layui-nav-item"><a href="{:url('Login/loginOut')}">退出</a></li>
+        </ul>
+    </div>
+    <!--导航-->
+    <div class="layui-side layui-bg-black kit-side" style="margin-top: 0.64rem">
+        <div class="layui-side-scroll">
+            <div class="kit-side-fold"><i class="fa fa-navicon layui-icon" style="color: #009688;" aria-hidden="true">&#xe65f;</i></div>
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="kitNavbar" kit-navbar>
+                <!--<li class="layui-nav-item layui-this">-->
+                    <!--<a href="javascript:;"  data-url="{:url('Menu/main')}" data-icon="fa-user" data-title="图表统计" kit-target data-id='1'><i class="layui-icon">&#xe68e;</i><span> Dashboard</span></a>-->
+                <!--</li>-->
+                {foreach $info as $menu}
+                <li class="layui-nav-item">
+                    <a class="parentMenu" href="javascript:;">
+                        <i class="fa fa-plug layui-icon {$menu['icon']}" aria-hidden="true"></i><span> {$menu['menu_name']}</span></a>
+                    <dl class="layui-nav-child">
+                        {foreach $menu['action'] as $action}
+                        <dd>
+                            <a href="javascript:;" data-url="{:url($action.controller_name.'/'.$action.action_name)}" data-icon="fa-user" data-title="{$action.menu_name}" kit-target data-id='{$action.id}'><i class="layui-icon">&#xe602;</i><span> {$action.menu_name}</span></a>
+                        </dd>
+                        {/foreach}
+                    </dl>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body" id="container" style="margin-top: 0.64rem">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">主体内容加载中,请稍等...</div>
+    </div>
+    <div class="layui-footer">
+        <div class="layui-row">
+            <div class="layui-col-md6" style="text-align: left">
+                2018 © Power by <a href="http://www.baidu.com" target="_blank">Doyi</a>
+            </div>
+            <div class="layui-col-md6" style="text-align: right">
+                Ver 1.0
+            </div>
+        </div>
+    </div>
+    {include file='common/footer'}
+    <script>
+        $(function () {
+            $('.layui-nav-item').on('click',function () {
+                $(this).siblings().removeClass('layui-nav-itemed');
+            })
+        })
+        //JavaScript代码区域
+        layui.use('element', function(){
+            var element = layui.element;
+        });
+        var message;
+        layui.config({
+            base: '/static/admin/build/js/'
+        }).use(['app'], function() {
+            var app = layui.app,
+                $ = layui.jquery,
+                layer = layui.layer;
+            //将message设置为全局以便子页面调用
+            message = layui.message;
+            //主入口
+            app.set({
+                url:'{:url("Menu/table")}',
+                type: 'iframe'
+            }).init();
+        });
+    </script>
+</div>
+</body>
+</html>
+

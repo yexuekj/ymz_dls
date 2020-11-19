@@ -1,0 +1,106 @@
+html,body,div,li,ul,span,font,strong,dd,dt{
+    margin:0;
+    padding:0;
+}
+body {
+    font-family: PingFang SC,Helvetica Neue,Helvetica,Arial,Hiragino Sans GB,Microsoft Yahei,sans-serif;
+    color: #666;
+    font-size: 14px;
+}
+html,body{
+    height: 100%;
+    min-height: 600px;
+}
+.ky_login{
+    background: url('../images/bg_login.jpg') no-repeat;
+    background-size: cover center;
+    height: 100%;
+    width:100%;
+    padding-top: 100px;
+    position: relative;
+}
+
+
+
+.login_box{
+    height: 350px;
+    background: #FFF;
+    margin: 0 auto;
+    border-radius: 5px;
+    opacity: 0.3;
+}
+.login_common{
+    position: absolute;
+    left:50%;
+    width:500px;
+    margin-left:-250px;
+}
+.login_content .title{
+    font-size: 22px;
+    padding-top: 30px;
+    text-align: center;
+    color:#65C278;
+}
+.login_content .content{
+    margin-top: 40px;
+}
+.login_content .content ul div{
+    float:left;
+}
+.login_content .content .left{
+    width:60px;
+    line-height: 32px;
+    color:#FFF;
+}
+.login_content .content .input{
+    width:290px;
+    box-sizing: border-box;
+}
+.margin_top20{
+    margin-top:20px!important;
+}
+.login_content .content .input input{
+    width:100%;
+    height: 30px;
+    font-size:14px;
+    line-height: 30px;
+    border: 1px solid #efefef;
+    outline: none;
+    border-radius: 3px;
+    padding: 0 6px;
+}
+.login_content .content ul{
+    width:350px;
+    margin: 0 auto;
+}
+.clear-fix:after{
+    content:' ';
+    height: 0;
+    width:0;
+    clear:both;
+    display: block;
+}
+.login_submit{
+    width:200px;
+    margin: 40px auto 0 auto;
+}
+
+.login_btn input[type="button"]{
+.login_btn input[type="submit"]{
+    width:200px;
+    height: 40px;
+    color: #FFF;
+    cursor: pointer;
+    background-color: #65C278;
+    border: 1px solid #61BB73;
+    border-radius: 3px;
+    outline: none;
+}
+.login_submit input[type="submit "]:hover{
+    background-color: #75B778;
+}
+.captcha img{
+    width:90px;
+    height: 32px;
+    margin-left: 14px;
+}

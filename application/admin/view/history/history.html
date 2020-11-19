@@ -1,0 +1,35 @@
+{include file='common/head'}
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
+    <input type="hidden" name="id" id="id" value="{$id|default=''}">
+    <table class="layui-hide" id="demo"></table>
+</div>
+<style type="text/css">
+    .layui-table-cell {
+        height: auto;
+        line-height: 28px;
+    }
+</style>
+
+{include file='common/footer'}
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        var id = $('#id').val();
+        	table.render({
+                    elem: '#demo'
+                    ,url:'{:url("admin/activity/history")}?id='+id
+                    ,cols: [[ //标题栏
+                        {field: 'work_no', title: '工号', width: 150}
+                        ,{field: 'user_name', title: '用户名', width: 100}
+                    ]]
+
+                    //,skin: 'line' //表格风格
+                    ,even: true
+                    ,page: true //是否显示分页
+                    ,limit: 50 //每页默认显示的数量
+                });
+    });
+</script>
+
+</body>
+</html>

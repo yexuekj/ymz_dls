@@ -1,0 +1,215 @@
+{include file='common/head'}
+
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
+    <blockquote class="layui-elem-quote layui-text">
+        <div class="demoTable layui-form">
+
+            <div class="layui-input-inline">
+                <input type="text" placeholder="请输入域名名称" name="user_name" class="layui-input">
+            </div>
+            <div class="layui-input-inline">
+                    <select name="user_id" lay-filter="aihao">
+                        <option value="0">全部</option>
+                        {foreach($info as $v)}
+                        <option value="{$v.id}" {if(!empty($user_id)) && $user_id == $v.id}selected  readonly="readonly" {/if}>{$v.user_name}</option>
+                        {/foreach}
+                    </select>
+            </div>
+
+            {if($role_id == 1)}
+            <button class="layui-btn addInfo" style="margin:0;"><i class="layui-icon">&#xe654;</i> 添加域名</button>
+            {/if}
+            <button class="layui-btn addInfo" style="margin:0;"><i class="layui-icon">&#xe63c;</i> 查询全部</button>
+            <button class="layui-btn " data-type="reload"><i class="layui-icon">&#xe615;</i>搜索</button>
+        </div>
+    </blockquote>
+
+
+    <div class="demoTable layui-for">
+        <table class="layui-table" lay-data="{height: 'full-100', url:'{$index}', page:true,id:'tableId',loading:true}" lay-filter="tableFilter">
+            <thead>
+            <tr>
+                {foreach($list as $k => $v)}
+                <th lay-data="{field:'{$k}',
+                        width:{$v['width']}
+                        {if(!empty($v['templet']))}
+                            ,templet: '#{$k}'
+                        {/if}
+                        {if(!empty($v['fixed']))}
+                            ,fixed: true
+                        {/if}
+                 }">{$v['name']}</th>
+                {/foreach}
+                <th lay-data="{fixed: '', width:380,fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
+            </tr>
+            </thead>
+        </table>
+
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-primary layui-btn-xs">更新系统</a>
+            {if($role_id == 1)}
+            <a class="layui-btn layui-btn-xs" lay-event="edit_1">修改信息</a>
+            {/if}
+            <a class="layui-btn layui-btn-xs" lay-event="edit_2">坐席数修改</a>
+            <a class="layui-btn layui-btn-xs" lay-event="input">充值</a>
+        </script>
+
+        <!--列-自定义-->
+        <script type="text/html" id="status">
+            {{#  if(d.status == 1){ }}
+            <span style="color: #5FB878" >正常</span>
+            {{#  } }}
+            {{#  if(d.status == 2){ }}
+            <span style="color: #FF5722" >封禁</span>
+            {{#  } }}
+        </script>
+
+        <script type="text/html" id="key_1">
+            <span style="color: #FF5722" ><a href="#" lay-event="key_1" >点击查看</a></span>
+        </script>
+        <script type="text/html" id="key_2">
+            <span style="color: #FF5722" ><a href="#" lay-event="key_2" >点击查看</a></span>
+        </script>
+    </div>
+</div>
+<style type="text/css">
+    .layui-table-cell {
+        height: 36px;
+    }
+</style>
+{include file='common/footer'}
+<!--颜色编辑-->
+<script>
+    layui.use(['table','form','laydate'], function(){
+        var table = layui.table
+            ,form = layui.form
+            ,laydate = layui.laydate;
+
+        //搜索提交
+        laydate.render({
+            elem: '#date'
+        });
+        var $ = layui.$, active = {
+            reload: function(){
+                var user_name = $('input[name="user_name"]').val();
+                var user_id = $('select[name="user_id"]').val();
+                //执行重载
+                table.reload('tableId', {
+                    where: {
+                        user_name:user_name,
+                        user_id:user_id,
+                    }
+                });
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(tableFilter)', function(obj){
+            console.log(obj)
+        });
+        var url1='/admin/userhost/input';
+        var url = '{$edit}'
+        //表格功能
+        table.on('tool(tableFilter)', function(obj){
+            var data = obj.data;
+            var event=obj.event;
+            switch(event){
+                case 'edit_2':
+                    layer.open({
+                        type: 2,
+                        title: '添加域名',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true,
+                        area: ['100%', '100%'],
+                        content: url1 + '?type=1&id='+data.id,
+                        end: function () {
+                            table.reload('tableId');
+                        },
+                    });
+                    break;
+                case 'edit_1':
+                    layer.open({
+                        type: 2,
+                        title: '添加域名',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true,
+                        area: ['100%', '100%'],
+                        content: url + '?id='+data.id,
+                        end: function () {
+                            table.reload('tableId');
+                        },
+                    });
+                    break;
+                case 'input':
+                    layer.open({
+                        type: 2,
+                        title: '添加域名',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true,
+                        area: ['100%', '100%'],
+                        content: url1 + '?type=2&id='+data.id,
+                        end: function () {
+                            table.reload('tableId');
+                        },
+                    });
+                    break;
+                case 'key_1':
+                    loading('正在查询当中')
+                    var th  = $(this);
+                    $.ajax({
+                        url: '/admin/userhost/look_type?type=1&id='+data.id,
+                        type: 'POST',
+                        async:false,
+                        data:{id:data.id},
+                        dataType:'json',
+                        success: function (obj) {
+                            th.html(obj.data.num)
+                            layer.close(layer.index)
+                        }
+                    });
+                    break;
+                case 'key_2':
+                    loading('正在查询当中')
+                    var th  = $(this);
+                    $.ajax({
+                        url: '/admin/userhost/look_type?type=2&id='+data.id,
+                        type: 'POST',
+                        async:false,
+                        data:{id:data.id},
+                        dataType:'json',
+                        success: function (obj) {
+                            th.html(obj.data.num)
+                            layer.close(layer.index)
+                        }
+                    });
+                    break;
+            }
+        });
+
+//      添加信息 url跳转路径
+
+        $('.addInfo').on('click', function() {
+            layer.open({
+                type: 2,
+                title: '添加域名',
+                shadeClose: true,
+                shade: false,
+                maxmin: true,
+                area: ['100%', '100%'],
+                content: url,
+                end: function () {
+                    table.reload('tableId');
+                },
+            });
+        });
+    });
+</script>
+</body>
+</html>

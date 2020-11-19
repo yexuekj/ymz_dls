@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>找回密码</title>
+    <meta name="author" content="Tang CRM">
+    <link rel="shortcut icon" href="/Public/ico/favicon.png">
+    <link href="/static/login/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/login/css/font-awesome.css" rel="stylesheet">
+    <link href="/static/login/css/custom.css" rel="stylesheet">
+    <link href="/static/login/css/animate.css" rel="stylesheet">
+    <link href="/static/login/css/style.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+<div class="middle-box text-center loginscreen animated fadeInDown" style="width: 500px;">
+    <div>
+        <div>
+            <h1 class="logo-name">
+                <img src="/static/logo.png" alt="CRM客服关系管理系统" style="width: 234px;height:72px;" />
+            </h1>
+        </div>
+        <h3>用户登录</h3>
+        <!-- <p>CRM客服关系管理系统</p> -->
+
+        <div action="" method="post" class="form-signin">
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="账号"/>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="请输入密码"/>
+            </div>
+            <div class="form-group">
+                是否管理员登录 <input type="checkbox" name="is_true" value="1"/>
+            </div>
+            <input name="submit" class="btn btn-primary block full-width m-b" type="submit" value="登录"/>
+            <p class="text-muted text-center"><small></small>
+        </div>
+         <p class="m-t"> <small>YMZCRM &copy; CREATED BY 2020</small> </p>
+    </div>
+</div>
+<!-- Mainly scripts -->
+<script src="/static/login/js/jquery-2.1.1.js"></script>
+<script src="/static/login/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/admin/login/layui/layui.js"></script>
+<script>
+
+    layui.use('layer', function() {
+        $('input[name="submit"]').click(function() {
+            var login = $('input[name="name"]').val();
+            var pwd = $('input[name="password"]').val();
+            var is_true = $('input[name="is_true"]:checked').val();
+            if(login == '') {
+                layer.msg('请输入您的账号');return false;
+            } else if(pwd == '') {
+                layer.msg('请输入密码');return false;
+            } else {
+                //登陆
+                var JsonData = {
+                    login: login,
+                    pwd: pwd,
+                    is_true: is_true,
+                };
+                $.post("/admin/login/login",JsonData,function(data) {
+                    if(data.code == 200){
+                        window.location.href = '/admin/menu/index';
+                    }else{
+                        layer.msg(data.msg);return false
+                    }
+                });
+            }
+        })
+    })
+
+</script>
+
+
+</body>
+</html>
