@@ -28,7 +28,7 @@ class Menu extends Base
        $role_menu = Db::table('role_menu')->where('role_id',$this->role_id)->select();
        $role_menu = array_column($role_menu,'menu_id','menu_id');
 
-       $info = Db::table('menu')->where('is_show',0)->whereIn('id',$role_menu)->select();
+       $info = Db::table('menu')->where('is_show',0)->whereIn('id',$role_menu)->order('list_order desc')->select();
        $list = $info;
        foreach ($info as $index => $item){
             $menu = [];
