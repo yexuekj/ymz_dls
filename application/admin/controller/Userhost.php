@@ -91,7 +91,7 @@ class Userhost extends Base
             $ipdata = array_column($ipdata,'ipdata_id','ipdata_id');
             unset($ipdata[$this->id]);
         }
-        $host = Db::connect(\config('data_base_3'))->table('ipdata')->where('status',1)->whereNotIn('id',$ipdata)->select();
+        $host = Db::connect(\config('data_base_3'))->table('ipdata')->where('status',1)->where('type',1)->whereNotIn('id',$ipdata)->select();
 
         $data['host'] = $host;
         return $data;
