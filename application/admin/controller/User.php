@@ -122,4 +122,38 @@ class User extends Base
     }
 
 
+    /**
+     * 查看坐席开通记录
+     */
+    public function agentRecordView(){
+        $param = $this->request->param();
+        $all_arr=[];
+        if($this->request->isAjax()) {
+            // 获取所有的账号坐席
+            $host = Db::table('user_host')->where('user_id',$param['id'])->order('host desc')->select();
+            foreach ($host as $v) {
+                $config = $this->getDataBaseConfig('', $v);
+                $host = explode('.',$v['host']);
+                $list = Db::connect($config)->table('mx_user')->field('name,full_name,FROM_UNIXTIME(reg_time,"%Y-%m-%d %H:%i:%s") reg_time,"'.$host[0].'" as host')->select();
+                if (is_array($list)) {
+                    $all_arr = array_merge($list, $all_arr);
+                }
+            }
+            $limit = $param['limit'];
+            $page = $param['page'];
+            $offset = $limit*($page - 1);
+            $count = count($all_arr);
+            $all_arr = array_slice($all_arr,$offset,$limit);
+            return $this->success($all_arr,'success',0,['count' => $count]);
+        }else{
+            $this->assign('list',$all_arr);
+            $this->assign('id',$param['id']);
+            $this->assign('type',$param['type']);
+            $this->assign('url','/admin/user/agentRecordView?id='.$param['id']);
+            return $this->fetch('user/agentRecordView');
+        }
+
+    }
+
+
 }

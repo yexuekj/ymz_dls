@@ -34,7 +34,7 @@
         </table>
 
         <script type="text/html" id="barDemo">
-            <a class="layui-btn layui-btn-primary layui-btn-xs">查看坐席开通记录</a>
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="agentRecordView">查看坐席开通记录</a>
             <a class="layui-btn layui-btn-xs" lay-event="edit_1">修改密码</a>
             <a class="layui-btn layui-btn-xs" lay-event="edit_2">充值</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">删除</a>
@@ -152,6 +152,22 @@
                     });
 
                     break;
+
+                case 'agentRecordView':
+                    layer.open({
+                        type: 2,
+                        title: '查看坐席开通记录',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true,
+                        area: ['100%', '100%'],
+                        content: '/admin/user/agentRecordView?type=2&id='+data.id,
+                        end: function () {
+                            table.reload('tableId');
+                        },
+                    });
+                    break;
+
             }
         });
 
