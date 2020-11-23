@@ -1,0 +1,45 @@
+{include file='common/head'}
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;height: 800px">
+    <div class="demoTable layui-for">
+        <table class="layui-table" lay-data="{height:'full-100', url:'/admin/user/agentRecordView?id={$id}', page:true, id:'test'}" lay-filter="test">
+            <thead>
+            <tr>
+                <th lay-data="{field:'id', width:80, sort: true,type:'numbers'}">ID</th>
+                <th lay-data="{field:'host', width:120}">域名</th>
+                <th lay-data="{field:'name', width:150}">坐席账号</th>
+                <th lay-data="{field:'full_name', width:200}">坐席名称</th>
+                <th lay-data="{field:'reg_time', width:300}">开通时间</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+{include file='common/footer'}
+<script>
+    layui.use(['table','form'], function(){
+        var table = layui.table
+            ,form = layui.form;
+        //搜索提交
+        var $ = layui.$, active = {
+            reload: function(){
+                var title = $('input[name="title"]').val();
+                //执行重载
+                table.reload('tableId', {
+                    where: {
+                        tag_name:title,
+                    }
+                });
+            }
+        };
+
+        //监听表格复选框选择
+        table.on('checkbox(tableFilter)', function(obj){
+            console.log(obj)
+        });
+
+
+    });
+</script>
+
+</body>
+</html>
