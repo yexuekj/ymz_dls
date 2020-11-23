@@ -4,7 +4,7 @@ namespace app\model;
 
 class AdminModel extends BaseModel
 {
-    protected $table = 'admin';
+    public $table = 'admin';
 
     public $indexAjaxParams = [
         'alias' => 'admin',

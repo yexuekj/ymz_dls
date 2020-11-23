@@ -32,11 +32,11 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label">发言状态</label>
+            <label class="layui-form-label">状态</label>
             <div class="layui-input-inline">
                 <select name="status" lay-verify="required">
-                    <option value="1" {if isset($data)}{if $data.is_say == 1}selected{/if}{/if}>正常</option>
-                    <option value="2" {if isset($data)}{if $data.is_say == 2}selected{/if}{/if}>禁言</option>
+                    <option value="1" {if isset($data)}{if $data.status == 1}selected{/if}{/if}>正常</option>
+                    <option value="2" {if isset($data)}{if $data.status == 2}selected{/if}{/if}>禁用</option>
                 </select>
             </div>
         </div>
