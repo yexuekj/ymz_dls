@@ -164,7 +164,7 @@
                     loading('正在查询当中')
                     var th  = $(this);
                     $.ajax({
-                        url: '/admin/userhost/look_type?type=1&id='+data.id,
+                        url: '/admin/userhost/look_type?type=1&ipdata_id='+data.ipdata_id,
                         type: 'POST',
                         async:false,
                         data:{id:data.id},
@@ -179,7 +179,7 @@
                     loading('正在查询当中')
                     var th  = $(this);
                     $.ajax({
-                        url: '/admin/userhost/look_type?type=2&id='+data.id,
+                        url: '/admin/userhost/look_type?type=2&ipdata_id='+data.ipdata_id,
                         type: 'POST',
                         async:false,
                         data:{id:data.id},
