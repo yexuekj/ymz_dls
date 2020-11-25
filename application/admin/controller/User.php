@@ -56,9 +56,9 @@ class User extends Base
                 ]);
             }
             if(isset($param['price'])){
-                if($param['price'] <= 0){
-                    return $this->error([],'充值数量必须大于0');
-                }
+//                if($param['price'] <= 0){
+//                    return $this->error([],'充值数量必须大于0');
+//                }
                 $res = Db::table('user')->where('id',$param['id'])->setInc('price',$param['price']);
             }
             if($res){

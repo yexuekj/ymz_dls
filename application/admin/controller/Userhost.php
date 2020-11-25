@@ -137,9 +137,9 @@ class Userhost extends Base
             }
 
             if(isset($param['number'])){
-                if($param['number'] <= 0){
-                    return $this->error([],'充值数量必须大于0');
-                }
+//                if($param['number'] < 0){
+//                    return $this->error([],'充值数量必须大于0');
+//                }
                 $info = Db::table('user_host')->where('id',$param['id'])->find();
 
                 $user = Db::table('user')->where('id',$info['user_id'])->find();
@@ -147,7 +147,7 @@ class Userhost extends Base
                 if($user['price'] < $param['number']){
                     return $this->error([],'用户剩余不足');
                 }
-                $config = $this->getDataBaseConfig($info['id']);
+                $config = $this->getDataBaseConfig('',$info);
                 $res1 = Db::connect($config)->table('mx_config')->where('name','remain_minutes')->setInc('value',$param['number']);
                 $res = Db::table('user')->where('id',$info['user_id'])->setDec('price',$param['number']);
                 $res = ($res1 && $res);
