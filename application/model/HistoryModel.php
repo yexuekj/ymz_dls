@@ -59,6 +59,11 @@ class HistoryModel extends BaseModel
             'name'=>'呼叫时间',
             'width'=>'250',
         ],
+        'file_path' => [
+            'name'=>'录音',
+            'width'=>'150',
+            'templet'=> true
+        ],
 //        'call_type' => [
 //            'name'=>'拨打方式',
 //            'width'=>'150',

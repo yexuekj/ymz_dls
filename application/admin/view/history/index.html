@@ -43,13 +43,13 @@
 
                  }">{$v['name']}</th>
                 {/foreach}
-                <th lay-data="{fixed: '', width:180,fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
+<!--                <th lay-data="{fixed: '', width:180,fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>-->
             </tr>
             </thead>
         </table>
         <!--操作功能-->
-        <script type="text/html" id="barDemo">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">查看录音</a>
+        <script type="text/html" id="file_path">
+            <audio 	controls="controls"  style="width:130px;height:35px;"  src="{{d.file_path}}"></audio>
         </script>
 
         <script type="text/html" id="is_connected">
