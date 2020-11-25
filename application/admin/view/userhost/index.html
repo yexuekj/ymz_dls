@@ -19,8 +19,8 @@
             {if($role_id == 1)}
             <button class="layui-btn addInfo" style="margin:0;"><i class="layui-icon">&#xe654;</i> 添加域名</button>
             {/if}
-            <button class="layui-btn addInfo" style="margin:0;"><i class="layui-icon">&#xe63c;</i> 查询全部</button>
-            <button class="layui-btn " data-type="reload"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button class="layui-btn "  data-type="reload"  data-id='all' style="margin:0;"><i class="layui-icon">&#xe63c;</i> 查询全部</button>
+            <button class="layui-btn " data-type="reload"  data-id='1'><i class="layui-icon">&#xe615;</i>搜索</button>
         </div>
     </blockquote>
 
@@ -65,10 +65,10 @@
         </script>
 
         <script type="text/html" id="key_1">
-            <span style="color: #FF5722" ><a href="#" lay-event="key_1" >点击查看</a></span>
+            <span style="color: #FF5722" ><a href="#" lay-event="key_1" > {{#  if((d.flag == 1)){ }} {{ d.key_1}}  {{# }else{  }} 点击查看  {{#  }  }}</a></span>
         </script>
         <script type="text/html" id="key_2">
-            <span style="color: #FF5722" ><a href="#" lay-event="key_2" >点击查看</a></span>
+            <span style="color: #FF5722" ><a href="#" lay-event="key_2" >{{#  if((d.flag == 1)){ }} {{ d.key_2}}  {{# }else{  }} 点击查看  {{#  }  }}</a></span>
         </script>
     </div>
 </div>
@@ -89,6 +89,7 @@
         laydate.render({
             elem: '#date'
         });
+        var searchtype = '';
         var $ = layui.$, active = {
             reload: function(){
                 var user_name = $('input[name="user_name"]').val();
@@ -98,12 +99,14 @@
                     where: {
                         user_name:user_name,
                         user_id:user_id,
+                        search_type:searchtype
                     }
                 });
-            }
+            },
         };
         $('.demoTable .layui-btn').on('click', function(){
             var type = $(this).data('type');
+            searchtype = $(this).data('id');
             active[type] ? active[type].call(this) : '';
         });
 
