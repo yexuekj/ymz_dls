@@ -40,12 +40,12 @@ class UserHostModel extends BaseModel
             'templet'=> true
         ],
         'key_2' => [
-            'name'=>'坐席数量',
+            'name'=>'已开通坐席数量',
             'width'=>'180',
             'templet'=> true
         ],
         'total_set' => [
-            'name'=>'可开通数量',
+            'name'=>'可开通坐席数量',
             'width'=>'180',
         ],
         'created_at' => [

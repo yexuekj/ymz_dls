@@ -127,7 +127,8 @@ class Userhost extends Base
     public function getData(){
         $config = $this->getDataBaseConfig('');
         $info = Db::connect($config)->table('mx_config')->where('name','remain_minutes')->find();
-        $number = Db::connect($config)->table('mx_user')->where('`role_id` != 1 AND `category_id` != 1')->count();
+//        $number = Db::connect($config)->table('mx_user')->where('`role_id` = 1 AND `category_id` = 1')->value('staff_open_num');
+        $number = Db::connect($config)->table('mx_user')->count();
         $arr = [
             'reamin' => $info['value'],
             'staff_num' => $number
@@ -147,6 +148,8 @@ class Userhost extends Base
         $param = $this->request->param();
         if($this->request->isAjax()){
             $res = true;
+            $info = Db::table('user_host')->where('id',$param['id'])->find();
+            $config = $this->getDataBaseConfig('',$info);
             if(isset($param['total_set'])){
                 if($param['total_set'] <= 0){
                     return $this->error([],'坐席数量必须大于0');
@@ -155,20 +158,17 @@ class Userhost extends Base
                     'updated_at' => time(),
                     'total_set' => ($param['total_set'])
                 ]);
+                Db::connect($config)->table('mx_user')->where('`role_id` = 1 AND `category_id` = 1')->update(['staff_open_num'=>$param['total_set']]);
             }
 
             if(isset($param['number'])){
 //                if($param['number'] < 0){
 //                    return $this->error([],'充值数量必须大于0');
 //                }
-                $info = Db::table('user_host')->where('id',$param['id'])->find();
-
                 $user = Db::table('user')->where('id',$info['user_id'])->find();
-
                 if($user['price'] < $param['number']){
                     return $this->error([],'用户剩余不足');
                 }
-                $config = $this->getDataBaseConfig('',$info);
                 $res1 = Db::connect($config)->table('mx_config')->where('name','remain_minutes')->setInc('value',$param['number']);
                 $res = Db::table('user')->where('id',$info['user_id'])->setDec('price',$param['number']);
                 $res = ($res1 && $res);
