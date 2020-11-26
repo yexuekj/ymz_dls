@@ -139,6 +139,20 @@
                         }
                     });
                     break;
+                case 'edit_2':
+                    layer.open({
+                        type: 2,
+                        title: '添加域名',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true,
+                        area: ['100%', '100%'],
+                        content: url1 + '?type=1&id='+data.id,
+                        end: function () {
+                            table.reload('tableId');
+                        },
+                    });
+                    break;
                 case 'edit_1':
                     layer.open({
                         type: 2,
