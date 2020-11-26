@@ -161,7 +161,8 @@
                         shade: false,
                         maxmin: true,
                         area: ['100%', '100%'],
-                        content: '/admin/user/agentRecordView?type=2&id='+data.id,
+                        // content: '/admin/user/agentRecordView?type=2&id='+data.id,
+                        content: '/admin/agent/index?selectid='+data.id,
                         end: function () {
                             table.reload('tableId');
                         },
