@@ -17,6 +17,12 @@ class Agent extends Base
         $this->model = AgentModel::class;
     }
 
+    public function index(){
+        $select_id = isset($_GET['selectid']) ? $_GET['selectid']:'';
+        $this->assign('select_id',$select_id);
+        return parent::index();
+    }
+
 
     /**
      * 查看坐席开通记录
@@ -26,7 +32,8 @@ class Agent extends Base
         $param = $this->request->param();
         $all_arr=[];
         $adminInfo = session('adminInfo');
-        $user_id = $adminInfo['id'];
+        $login_id = $adminInfo['id'];
+        $user_id = isset($param['select_id']) ? $param['select_id'] :$login_id;
         $where = [];
         if(isset($param['host'])){
             $host_name  = $param['host'];
