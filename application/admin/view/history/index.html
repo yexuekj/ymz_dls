@@ -7,10 +7,10 @@
 
             </div>
             <div class="layui-input-inline">
-                <select name="ipdata_id" lay-verify="required" lay-search="">
+                <select name="id" lay-verify="required" lay-search="">
                     <option value="0"></option>
                     {foreach($host as $v)}
-                    <option value="{$v.id}"  {if(!empty($data.ipdata_id) && $data.ipdata_id == $v.id)}selected{/if}>{$v.domain_name}</option>
+                    <option value="{$v.id}"  {if(!empty($data.id) && $data.id == $v.id)}selected{/if}>{$v.host}</option>
                     {/foreach}
                 </select>
             </div>
@@ -98,13 +98,13 @@
             reload: function(){
                 var start_time = $('input[name="start_time"]').val();
                 var end_time = $('input[name="end_time"]').val();
-                var ipdata_id = $('select[name="ipdata_id"]').val();
+                var id = $('select[name="id"]').val();
                 //执行重载
                 table.reload('tableId', {
                     where: {
                         start_time:start_time,
                         end_time:end_time,
-                        ipdata_id:ipdata_id,
+                        ipdata_id:id,
                     }
                 });
             }
