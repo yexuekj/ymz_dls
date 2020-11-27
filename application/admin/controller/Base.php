@@ -313,7 +313,7 @@ class Base extends Controller
     public function getDataBaseConfig($id,$data = [])
     {
         if(empty($data)){
-            $info = Db::table('user_host')->where('ipdata_id',$this->param['ipdata_id'])->find();
+            $info = Db::table('user_host')->where('id',$id)->find();
             $database = explode('.',$info['host']);
             return $config = [
                 'type'            => 'mysql',
