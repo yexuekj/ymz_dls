@@ -111,8 +111,7 @@ class Userhost extends Base
         foreach ($data as &$v){
             $v['user_total'] = Db::table('user_host')->where('user_id',$v['id'])->count();
             if(isset($parmas['search_type']) && $parmas['search_type']== 'all'){
-                $this->param['ipdata_id'] = $v['ipdata_id'];
-                $res = $this->getData();
+                $res = $this->getData($v);
                 $v['key_1'] = $res['reamin'];
                 $v['key_2'] = $res['staff_num'];
                 $v['flag'] = 1;
@@ -124,8 +123,8 @@ class Userhost extends Base
     }
 
     // 获取域名下的坐席数量和分钟数
-    public function getData(){
-        $config = $this->getDataBaseConfig('');
+    public function getData($configInfo = ''){
+        $config = $this->getDataBaseConfig('',$configInfo);
         $info = Db::connect($config)->table('mx_config')->where('name','remain_minutes')->find();
 //        $number = Db::connect($config)->table('mx_user')->where('`role_id` = 1 AND `category_id` = 1')->value('staff_open_num');
         $number = Db::connect($config)->table('mx_user')->count();

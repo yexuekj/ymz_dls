@@ -315,9 +315,10 @@ class Base extends Controller
         if(empty($data)){
             $info = Db::table('user_host')->where('id',$id)->find();
             $database = explode('.',$info['host']);
+            $ip  = gethostbyname($info['host']);
             return $config = [
                 'type'            => 'mysql',
-                'hostname'        => $info['ip'],
+                'hostname'        => $ip,
                 'database'        => $database[0],
                 'username'        => 'mtcrm',
                 'password'        => 'ymz2020crm',
@@ -325,9 +326,10 @@ class Base extends Controller
             ];
         }else{
             $database = explode('.',$data['host']);
+            $ip  = gethostbyname($data['host']);
             return $config = [
                 'type'            => 'mysql',
-                'hostname'        => $data['ip'],
+                'hostname'        => $ip,
                 'database'        => $database[0],
                 'username'        => 'mtcrm',
                 'password'        => 'ymz2020crm',
