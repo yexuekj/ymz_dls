@@ -34,8 +34,13 @@ class UserHostModel extends BaseModel
             'name'=>'域名',
             'width'=>'180',
         ],
+        'key_0' => [
+            'name'=>'axb余额',
+            'width'=>'180',
+            'templet'=> true
+        ],
         'key_1' => [
-            'name'=>'余额',
+            'name'=>'回拨余额',
             'width'=>'180',
             'templet'=> true
         ],

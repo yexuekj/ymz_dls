@@ -64,6 +64,9 @@
             {{#  } }}
         </script>
 
+        <script type="text/html" id="key_0">
+            <span style="color: #FF5722" ><a href="#" lay-event="key_0" > {{#  if((d.flag == 1)){ }} {{ d.key_0}}  {{# }else{  }} 点击查看  {{#  }  }}</a></span>
+        </script>
         <script type="text/html" id="key_1">
             <span style="color: #FF5722" ><a href="#" lay-event="key_1" > {{#  if((d.flag == 1)){ }} {{ d.key_1}}  {{# }else{  }} 点击查看  {{#  }  }}</a></span>
         </script>
@@ -179,6 +182,21 @@
                         end: function () {
                             table.reload('tableId');
                         },
+                    });
+                    break;
+                case 'key_0':
+                    loading('正在查询当中')
+                    var th  = $(this);
+                    $.ajax({
+                        url: '/admin/userhost/look_type?type=3&id='+data.id,
+                        type: 'POST',
+                        async:false,
+                        data:{id:data.id},
+                        dataType:'json',
+                        success: function (obj) {
+                            th.html(obj.data.num)
+                            layer.close(layer.index)
+                        }
                     });
                     break;
                 case 'key_1':

@@ -168,7 +168,8 @@ class Userhost extends Base
                 if($user['price'] < $param['number']){
                     return $this->error([],'用户剩余不足');
                 }
-                $res1 = Db::connect($config)->table('mx_config')->where('name','remain_minutes')->setInc('value',$param['number']);
+                $recharge_name =  $param['recharge_type'] == 1 ? 'remain_minutes' : 'axb_remain_minutes';
+                $res1 = Db::connect($config)->table('mx_config')->where('name',$recharge_name)->setInc('value',$param['number']);
                 $res = Db::table('user')->where('id',$info['user_id'])->setDec('price',$param['number']);
                 $res = ($res1 && $res);
 
@@ -195,6 +196,11 @@ class Userhost extends Base
         $config = $this->getDataBaseConfig($param['id']);
         if($param['type'] == 1){
             $info = Db::connect($config)->table('mx_config')->where('name','remain_minutes')->find();
+            $arr = [
+                'num' => $info['value']
+            ];
+        }elseif($param['type'] == 3){
+            $info = Db::connect($config)->table('mx_config')->where('name','axb_remain_minutes')->find();
             $arr = [
                 'num' => $info['value']
             ];
