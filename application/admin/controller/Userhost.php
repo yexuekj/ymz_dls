@@ -112,6 +112,7 @@ class Userhost extends Base
             $v['user_total'] = Db::table('user_host')->where('user_id',$v['id'])->count();
             if(isset($parmas['search_type']) && $parmas['search_type']== 'all'){
                 $res = $this->getData($v);
+                $v['key_0'] = $res['axb_reamin'];
                 $v['key_1'] = $res['reamin'];
                 $v['key_2'] = $res['staff_num'];
                 $v['flag'] = 1;
@@ -125,11 +126,22 @@ class Userhost extends Base
     // 获取域名下的坐席数量和分钟数
     public function getData($configInfo = ''){
         $config = $this->getDataBaseConfig('',$configInfo);
-        $info = Db::connect($config)->table('mx_config')->where('name','remain_minutes')->find();
+        $info = Db::connect($config)->table('mx_config')->where('name = "remain_minutes" or name ="axb_remain_minutes"')->select();
+        $remain = 0;
+        $axb_remain = 0;
+        foreach($info as $key=>$val){
+            if($val['name'] == 'remain_minutes'){
+                $remain = $val['value'];
+            }
+            if($val['name'] == 'axb_remain_minutes'){
+                $axb_remain = $val['value'];
+            }
+        }
 //        $number = Db::connect($config)->table('mx_user')->where('`role_id` = 1 AND `category_id` = 1')->value('staff_open_num');
         $number = Db::connect($config)->table('mx_user')->count();
         $arr = [
-            'reamin' => $info['value'],
+            'reamin' => $remain,
+            'axb_reamin' => $axb_remain,
             'staff_num' => $number
         ];
         return $arr;
