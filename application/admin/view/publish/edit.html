@@ -1,0 +1,73 @@
+{include file='common/head'}
+
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
+    <div class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label class="layui-form-label">题目</label>
+            <div class="layui-input-inline">
+                <input type="title" value="" id="title" name="total_set" lay-verify="required"  class="layui-input">
+            </div>
+        </div>
+        <textarea id="publish" name="content" style="display: none;"></textarea>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="submitContent">立即提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+
+</style>
+{include file='common/footer'}
+<!--编辑器-->
+<script>
+    layui.use(['layedit','form'], function(){
+        var layedit = layui.layedit,
+            form = layui.form;
+        layedit.set({
+            //暴露layupload参数设置接口 --详细查看layupload参数说明
+            uploadImage: {
+                url: ''    //上传接口url
+                ,type: 'post' //默认post
+            }
+            , devmode: true
+            //插入代码设置
+            , codeConfig: {
+                hide: true,  //是否显示编码语言选择框
+                default: 'javascript' //hide为true时的默认语言格式
+            }
+            , tool: [
+                'html', 'code', 'strong',  'underline', 'del', 'addhr', '|', 'fontFomatt', 'colorpicker', 'face'
+                , '|', 'left', 'center', 'right', '|', 'link', 'unlink','images', 'image_alt',
+                , '|', 'fullScreen'
+            ]
+            ,height: 500, //设置编辑器高度
+        });
+        layedit.build('publish');   //建立编辑器
+
+
+        //提交表单
+        var index= layedit.build('publish',{
+
+        });
+        var url='/admin/Publish/editAjax';
+        form.on('submit(submitContent)', function(data){
+            var content = layedit.getContent(index);  //获取html
+            var title = $('#title').val();
+            $.post(url, {content:content,title:title},function (obj) {
+                if(obj.code==200){
+                    parent.layer.msg(obj.msg, {icon: 6,time: 1000});
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index); //再执行关闭
+                }else{
+                    parent.layer.msg(obj.msg, {icon: 5,time: 1000});
+                }
+            },"JSON");
+        });
+    });
+
+
+</script>
+</body>
+</html>

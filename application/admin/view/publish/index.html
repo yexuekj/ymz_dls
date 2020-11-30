@@ -1,0 +1,98 @@
+{include file='common/head'}
+
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
+    <div class="layui-form layui-form-pane">
+
+        <blockquote class="layui-elem-quote layui-text">
+            <div class="demoTable layui-form">
+                <div class="layui-input-inline">
+                    <input type="text" name="start_time" id="date1" lay-verify="date" placeholder="请输入日期" autocomplete="off" class="layui-input">
+                </div>
+                <button class="layui-btn " data-type="reload"><i class="layui-icon">&#xe615;</i>搜索</button>
+                <button  class="layui-btn addInfo" style="margin:0;float: right"><i class="layui-icon">&#xe654;</i> 发布公告 </button>
+            </div>
+
+        </blockquote>
+
+
+        <div class="demoTable layui-for" style="height: 700px">
+            <table class="layui-table" lay-data="{height:'full-100', url:'{$index}', page:true, id:'tableId'}" lay-filter="test">
+                <thead>
+                <tr>
+                    {foreach($list as $k => $v)}
+                    <th lay-data="{field:'{$k}',
+                        width:{$v['width']}
+                        {if(!empty($v['templet']))}
+                            ,templet: '#{$k}'
+                        {/if}
+                        {if(!empty($v['fixed']))}
+                            ,fixed: true
+                        {/if}
+                        {if($k == 'id')}
+                            ,sort: true,type:'numbers'
+                        {/if}
+
+                 }">{$v['name']}</th>
+                    {/foreach}
+                </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+</div>
+<style type="text/css">
+
+</style>
+{include file='common/footer'}
+<!--编辑器-->
+<script>
+    layui.use(['table','form','laydate'], function(){
+        var table = layui.table
+            ,laydate = layui.laydate;
+
+
+        laydate.render({
+            elem: '#date1'
+            ,type: 'date'
+        });
+
+        //搜索提交
+        var $ = layui.$, active = {
+            reload: function(){
+                //执行重载
+                table.reload('tableId', {
+                    where: {
+                        'date':$('#date1').val()
+                    }
+                });
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        var url = '{$edit}';
+        $('.addInfo').on('click', function() {
+            layer.open({
+                type: 2,
+                title: '发布公告',
+                shadeClose: true,
+                shade: false,
+                maxmin: true,
+                area: ['100%', '100%'],
+                content: url,
+                end: function () {
+                    table.reload('tableId');
+                },
+            });
+        });
+    });
+
+
+</script>
+</body>
+</html>
