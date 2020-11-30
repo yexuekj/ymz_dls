@@ -59,7 +59,9 @@ class User extends Base
 //                if($param['price'] <= 0){
 //                    return $this->error([],'充值数量必须大于0');
 //                }
-                $res = Db::table('user')->where('id',$param['id'])->setInc('price',$param['price']);
+                $recharge_type = $param['recharge_type'];
+                $price_name = $recharge_type == 1 ? 'price' : 'axb_price';
+                $res = Db::table('user')->where('id',$param['id'])->setInc($price_name,$param['price']);
             }
             if($res){
                 return $this->success();

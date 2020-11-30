@@ -177,12 +177,17 @@ class Userhost extends Base
 //                    return $this->error([],'充值数量必须大于0');
 //                }
                 $user = Db::table('user')->where('id',$info['user_id'])->find();
-                if($user['price'] < $param['number']){
-                    return $this->error([],'用户剩余不足');
+                $recharge_type = $param['recharge_type'];
+                if($user['price'] < $param['number'] && $recharge_type == 1){
+                    return $this->error([],'用户回拨余额剩余不足');
                 }
-                $recharge_name =  $param['recharge_type'] == 1 ? 'remain_minutes' : 'axb_remain_minutes';
+                if($user['axb_price'] < $param['number'] && $recharge_type == 2){
+                    return $this->error([],'用户axb余额剩余不足');
+                }
+                $recharge_name =  $recharge_type == 1 ? 'remain_minutes' : 'axb_remain_minutes';
                 $res1 = Db::connect($config)->table('mx_config')->where('name',$recharge_name)->setInc('value',$param['number']);
-                $res = Db::table('user')->where('id',$info['user_id'])->setDec('price',$param['number']);
+                $price_name = $recharge_type == 1 ? 'price' : 'axb_price';
+                $res = Db::table('user')->where('id',$info['user_id'])->setDec($price_name,$param['number']);
                 $res = ($res1 && $res);
 
             }

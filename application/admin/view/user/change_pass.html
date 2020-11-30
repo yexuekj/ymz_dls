@@ -1,6 +1,6 @@
 {include file='common/head'}
 <div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
-    <div class="layui-form layui-form-pane">
+    <div class="layui-form layui-form-pane" style=";height: 320px">
         <input type="hidden" name="id" value="{$id|default=''}">
 
         {if(!empty($type) && $type== 1)}
@@ -16,6 +16,15 @@
             <label class="layui-form-label">充值数量</label>
             <div class="layui-input-inline">
                 <input type="number" placeholder="请输入充值数量" value="" name="price" lay-verify="required" autocomplete="No" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">充值类型</label>
+            <div class="layui-input-inline">
+                <select name = 'recharge_type'>
+                    <option value="1">回拨</option>
+                    <option value="2">axb</option>
+                </select>
             </div>
         </div>
         {/if}

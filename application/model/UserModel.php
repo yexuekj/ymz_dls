@@ -34,7 +34,11 @@ class UserModel extends BaseModel
             'width'=>'150',
         ],
         'price' => [
-            'name'=>'代理商余额',
+            'name'=>'代理商回拨余额',
+            'width'=>'150',
+        ],
+        'axb_price' => [
+            'name'=>'代理商axb余额',
             'width'=>'150',
         ],
         'user_total' => [
