@@ -38,6 +38,9 @@
                         {if(!empty($v['fixed']))}
                             ,fixed: true
                         {/if}
+                         {if(!empty($v['edit']))}
+                            ,edit: '{$k}'
+                        {/if}
                  }">{$v['name']}</th>
                 {/foreach}
                 <th lay-data="{fixed: '', width:380,fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
@@ -111,6 +114,25 @@
             var type = $(this).data('type');
             searchtype = $(this).data('id');
             active[type] ? active[type].call(this) : '';
+        });
+
+
+
+        //监听单元格编辑
+        table.on('edit(tableFilter)', function(obj){
+            debugger
+            var value = obj.value //得到修改后的值
+                ,data = obj.data //得到所在行所有键值
+
+            $.post('/admin/Userhost/editAjax', {id:data.id,remark:value},function (obj) {
+                if(obj.code==200){
+                    parent.layer.msg(obj.msg, {icon: 6,time: 1000});
+                }
+                if(obj.code==500){
+                    parent.layer.msg(obj.msg, {icon: 5,time: 1000});
+                }
+                location.reload();
+            },"JSON");
         });
 
         //监听表格复选框选择

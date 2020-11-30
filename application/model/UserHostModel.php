@@ -26,6 +26,11 @@ class UserHostModel extends BaseModel
             'width'=>'100',
             'fixed'=> true,
         ],
+        'remark' => [
+            'name'=>'备注',
+            'width'=>'150',
+            'edit'=>'text'
+        ],
         'user_name' => [
             'name'=>'代理商名称',
             'width'=>'150',
@@ -36,22 +41,22 @@ class UserHostModel extends BaseModel
         ],
         'key_1' => [
             'name'=>'回拨余额',
-            'width'=>'180',
+            'width'=>'120',
             'templet'=> true
         ],
         'key_0' => [
             'name'=>'axb余额',
-            'width'=>'180',
+            'width'=>'120',
             'templet'=> true
         ],
         'key_2' => [
             'name'=>'已开通坐席数量',
-            'width'=>'180',
+            'width'=>'150',
             'templet'=> true
         ],
         'total_set' => [
             'name'=>'可开通坐席数量',
-            'width'=>'180',
+            'width'=>'140',
         ],
         'created_at' => [
             'name'=>'创建时间',
