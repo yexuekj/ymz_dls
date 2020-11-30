@@ -138,7 +138,7 @@ class Userhost extends Base
             }
         }
 //        $number = Db::connect($config)->table('mx_user')->where('`role_id` = 1 AND `category_id` = 1')->value('staff_open_num');
-        $number = Db::connect($config)->table('mx_user')->count();
+        $number = Db::connect($config)->table('mx_user')->where('`role_id` != 1 AND `category_id` != 1')->count();
         $arr = [
             'reamin' => $remain,
             'axb_reamin' => $axb_remain,

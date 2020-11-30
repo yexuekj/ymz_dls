@@ -92,7 +92,7 @@ class User extends Base
         $number = 0;
         foreach ($host as $v){
             $config = $this->getDataBaseConfig('',$v);
-            $number += Db::connect($config)->table('mx_user')->count();
+            $number += Db::connect($config)->table('mx_user')->where('`role_id` != 1 AND `category_id` != 1')->count();
         }
 
         return $this->success(['num' => $number]);
