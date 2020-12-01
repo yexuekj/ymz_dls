@@ -1,0 +1,123 @@
+{include file='common/head'}
+
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
+    <blockquote class="layui-elem-quote layui-text">
+        <div class="demoTable layui-form">
+            <div class="layui-input-inline">
+                <input type="text" placeholder="请输入菜单名称" name="menu_name" class="layui-input">
+            </div>
+            <button class="layui-btn " data-type="reload"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button class="layui-btn addInfo" style="margin:0;"><i class="layui-icon">&#xe654;</i> 添加</button>
+        </div>
+    </blockquote>
+
+
+    <div class="demoTable layui-for">
+        <table class="layui-table" lay-data="{height: 'full-100', url:'{$index}', page:true,id:'tableId',loading:true}" lay-filter="tableFilter">
+            <thead>
+            <tr>
+                {foreach($list as $k => $v)}
+                <th lay-data="{field:'{$k}',
+                        width:{$v['width']}
+                        {if(!empty($v['templet']))}
+                            ,templet: '#{$k}'
+                        {/if}
+                        {if(!empty($v['fixed']))}
+                            ,fixed: true
+                        {/if}
+                         {if($k == 'id')}
+                            ,sort: true,type:'numbers'
+                        {/if}
+                 }">{$v['name']}</th>
+                {/foreach}
+                <th lay-data="{fixed: '', width:180,fixed: 'right', align:'center', toolbar: '#barDemo'}">操作</th>
+            </tr>
+            </thead>
+        </table>
+        <!--操作功能-->
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        </script>
+
+        <!--列-自定义-->
+        <script type="text/html" id="is_show">
+            {{#  if(d.is_show == 0){ }}
+            <span style="color: #5FB878" >显示</span>
+            {{#  } }}
+            {{#  if(d.is_show == 1){ }}
+            <span style="color: #FF5722" >隐藏</span>
+            {{#  } }}
+        </script>
+
+    </div>
+</div>
+{include file='common/footer'}
+<!--颜色编辑-->
+<script>
+    layui.use(['table','form'], function(){
+        var table = layui.table
+            ,form = layui.form;
+        //搜索提交
+        var $ = layui.$, active = {
+            reload: function(){
+                var menu_name = $('input[name="menu_name"]').val();
+                //执行重载
+                table.reload('tableId', {
+                    where: {
+                        menu_name:menu_name,
+                    }
+                });
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(tableFilter)', function(obj){
+            console.log(obj)
+        });
+
+        //表格功能
+        table.on('tool(tableFilter)', function(obj){
+            var data = obj.data;
+            var event=obj.event;
+            switch(event){
+                case 'edit':
+                    layer.open({
+                        type: 2,
+                        title: '编辑更新数据信息',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true, //开启最大化最小化按钮
+                        area: ['100%', '100%'],
+                        content: '{$edit}?id='+data.id,
+                        end: function () {
+                            table.reload('tableId');
+                        },
+                    });
+                    break;
+            }
+        });
+
+//      添加信息 url跳转路径
+        var url='{$edit}';
+        $('.addInfo').on('click', function() {
+            layer.open({
+                type: 2,
+                title: '添加菜单',
+                shadeClose: true,
+                shade: false,
+                maxmin: true,
+                area: ['100%', '100%'],
+                content: url,
+                end: function () {
+                    table.reload('tableId');
+                },
+            });
+        });
+    });
+</script>
+</body>
+</html>
