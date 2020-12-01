@@ -59,7 +59,7 @@ class Base extends Controller
         $adminInfo =  Session('adminInfo');
         $url = $_REQUEST['s'];
         if(is_null($adminInfo) && !in_array($url,['/admin/rechargeRecord/recordList'])){
-            echo "<script>alert('登录凭证过期 请重新登录');window.location.href='/admin/login/index'</script>";
+            echo "<script>alert('登录凭证过期 请重新登录!');window.location.href='/admin/login/index'</script>";
         }else{
             $this->adminInfo = $adminInfo;
             $this->uid = $adminInfo['id'];
