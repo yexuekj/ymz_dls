@@ -188,7 +188,17 @@ class Userhost extends Base
                 $res1 = Db::connect($config)->table('mx_config')->where('name',$recharge_name)->setInc('value',$param['number']);
                 $price_name = $recharge_type == 1 ? 'price' : 'axb_price';
                 $res = Db::table('user')->where('id',$info['user_id'])->setDec($price_name,$param['number']);
-                $res = ($res1 && $res);
+
+                // 添加充值记录
+                $insertData = [
+                    'host'=>$info['host'],
+                    'minutes'=>$param['number'],
+                    'type'=>$recharge_type,
+                    'create_time'=>time()
+                ];
+                $recharge_res = Db::table('recharge_record')->insertGetId($insertData);
+
+                $res = ($res1 && $res && $recharge_res);
 
             }
             if($res){
