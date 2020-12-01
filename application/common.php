@@ -320,4 +320,14 @@ function get_rand($proArr) {
 }
 
 
+// 返回信息 ajax
+function returnAjax($code=0,$msg='success',$data=array(),$url=''){
+    $result['code'] = $code;
+    $result['msg']  = $msg;
+    $result['data'] = $data;
+    $result['url']  = $url;
+    return json_encode($result,256);
+}
+
+
 
