@@ -9,7 +9,7 @@ class Rechargerecord extends Base
 {
     public function __construct(Request $app)
     {
-        parent::__construct($app);
+//        parent::__construct($app);
     }
 
 
