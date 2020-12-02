@@ -1,0 +1,79 @@
+{include file='common/head'}
+<div style="overflow-x: hidden;width: 96%;height:800px;margin: auto;padding-top: 1rem;">
+    <div class="layui-form layui-form-pane">
+        <input type="hidden" name="id" value="{$data.id|default=''}">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单</label>
+            <div class="layui-input-inline">
+                <select name="p_id" lay-filter="menu">
+                    {foreach($info_two as $v)}
+                    <option value="{$v.id}"  {if(!empty($data.menu_id) && $data.menu_id == $v.id)}selected{/if}>{$v.menu_name}</option>
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">操作名称</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$data['title']|default=''}" name="title"  lay-verify="required"  class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">操作路径</label>
+            <div class="layui-input-inline">
+                <input type="text" value="{$data['url']|default=''}" name="url"   class="layui-input"><span style="color:red;">(例如：user/index)</span>
+            </div>
+        </div>
+
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">分配角色</label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <select name="role_id" lay-filter="role">-->
+<!--                    {foreach($role_info as $v)}-->
+<!--                    <option value="{$v.role_id}"  {if(!empty($data.role_id) && $data.role_id == $v.role_id)}selected{/if}>{$v.name}</option>-->
+<!--                    {/foreach}-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="demo1">立即提交</button>
+                <button type="button" class="layui-btn layui-btn-primary" id="closeIframe">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+{include file='common/footer'}
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //提交表单
+        var url='{$url}';
+        form.on('submit(demo1)', function(data){
+            $.post(url,data.field,function (obj) {
+                if(obj.code==200){
+                    parent.layer.msg(obj.msg, {icon: 6,time: 1000});
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index,data.field); //再执行关闭
+                }
+                if(obj.code==500){
+                    parent.layer.msg(obj.msg, {icon: 5,time: 1000});
+                }
+            },"JSON");
+        });
+
+        $('#closeIframe').click(function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+
+    });
+</script>
+
+</body>
+</html>
