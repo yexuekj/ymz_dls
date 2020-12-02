@@ -13,7 +13,7 @@ class PermissionModel extends BaseModel
             ['role_permission role_per','role_per.permission_id = per.id ','left'],
             ['role','role.role_id = role_per.role_id ','left'],
         ],
-        'order' => '',
+        'order' => 'created_at desc',
         'field' => 'per.*,menu.menu_name,role.name role_name',
         'where' => [
 
@@ -41,6 +41,11 @@ class PermissionModel extends BaseModel
         ],
         'url' => [
             'name'=>'操作路径',
+            'width'=>'200',
+            'fixed'=> true,
+        ],
+        'created_at' => [
+            'name'=>'创建时间',
             'width'=>'200',
             'fixed'=> true,
         ],
