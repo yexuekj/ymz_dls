@@ -157,9 +157,9 @@
                         success: function (obj) {
                             layer.close(layer.index)
                             if(obj == 1){
-                                layer.msg('更新成功')
+                                layer.msg('更新成功',{icon: 6,time: 1000})
                             }else{
-                                layer.msg('更新失败')
+                                layer.msg('更新失败',{icon: 5,time: 1000})
                             }
                         }
                     });
@@ -181,7 +181,7 @@
                 case 'edit_1':
                     layer.open({
                         type: 2,
-                        title: '添加域名',
+                        title: '修改信息',
                         shadeClose: true,
                         shade: false,
                         maxmin: true,
@@ -195,7 +195,7 @@
                 case 'input':
                     layer.open({
                         type: 2,
-                        title: '添加域名',
+                        title: '充值',
                         shadeClose: true,
                         shade: false,
                         maxmin: true,
@@ -216,8 +216,12 @@
                         data:{id:data.id},
                         dataType:'json',
                         success: function (obj) {
-                            th.html(obj.data.num)
-                            layer.close(layer.index)
+                            if(obj.code == 500){
+                                layer.msg(obj.msg,{icon: 5,time: 1000})
+                            }else{
+                                th.html(obj.data.num)
+                                layer.close(layer.index)
+                            }
                         }
                     });
                     break;
@@ -231,8 +235,12 @@
                         data:{id:data.id},
                         dataType:'json',
                         success: function (obj) {
-                            th.html(obj.data.num)
-                            layer.close(layer.index)
+                            if(obj.code == 500){
+                                layer.msg(obj.msg,{icon: 5,time: 1000})
+                            }else{
+                                th.html(obj.data.num)
+                                layer.close(layer.index)
+                            }
                         }
                     });
                     break;
@@ -246,8 +254,12 @@
                         data:{id:data.id},
                         dataType:'json',
                         success: function (obj) {
-                            th.html(obj.data.num)
-                            layer.close(layer.index)
+                            if(obj.code == 500){
+                                layer.msg(obj.msg,{icon: 5,time: 1000})
+                            }else{
+                                th.html(obj.data.num)
+                                layer.close(layer.index)
+                            }
                         }
                     });
                     break;
