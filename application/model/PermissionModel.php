@@ -10,7 +10,7 @@ class PermissionModel extends BaseModel
         'alias' => 'per',
         'join' => [
             ['menu','per.menu_id = menu.id ','inner'],
-            ['role_permission role_per','role_per.permission_id = per.id ','inner'],
+            ['role_permission role_per','role_per.permission_id = per.id ','left'],
             ['role','role.role_id = role_per.role_id ','left'],
         ],
         'order' => '',
