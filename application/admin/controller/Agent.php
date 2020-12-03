@@ -33,7 +33,7 @@ class Agent extends Base
         $all_arr=[];
         $adminInfo = session('adminInfo');
         $login_id = $adminInfo['id'];
-        $user_id = isset($param['select_id']) ? $param['select_id'] :$login_id;
+        $user_id = isset($param['select_id']) &&  $param['select_id'] ? $param['select_id'] :$login_id;
         $where = [];
         if(isset($param['host'])){
             $host_name  = $param['host'];

@@ -68,7 +68,7 @@ class Role extends Base
                 }
             }
             if(!empty($delete_permission)){
-                $map['permission_id'] = array('in',$delete_permission);
+                $map['permission_id'] = array('in',implode(',',$delete_permission));
                 $map['role_id'] = $role_id;
                 $role_permission->where($map)->delete();
             }
