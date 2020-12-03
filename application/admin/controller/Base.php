@@ -37,10 +37,12 @@ class Base extends Controller
     public function __construct(Request $app)
     {
         parent::__construct();
-        $this->checkLogin();
-        $param = $this->request->param();
         $this->controller = ($this->request->controller());
         $this->action = ($this->request->action());
+        $allow = $this->allowUrl($this->action,$this->controller);
+        $this->checkLogin($allow);
+        $param = $this->request->param();
+        $this->authenticate($this->action,$this->controller,$allow);
         if(!empty($param[$this->pk])){
             $this->id = $param[$this->pk];
             unset($param[$this->pk]);
@@ -54,11 +56,10 @@ class Base extends Controller
     /**
      * 登录检查
      */
-    protected function checkLogin()
+    protected function checkLogin($allow)
     {
         $adminInfo =  Session('adminInfo');
-        $url = $_REQUEST['s'];
-        if(is_null($adminInfo) && !in_array($url,['/admin/rechargeRecord/recordList'])){
+        if(is_null($adminInfo) && !$allow){
             echo "<script>alert('登录凭证过期 请重新登录!');window.location.href='/admin/login/index'</script>";
         }else{
             $this->adminInfo = $adminInfo;
@@ -338,5 +339,45 @@ class Base extends Controller
             ];
         }
 
+    }
+
+    // 权限判断
+    public function  authenticate($action,$controller,$allow){
+        $role_id  = $this->role_id;
+        $url = strtolower($controller.'/'.$action);
+        $request = $this->request->method();
+        // 非管理员权限配置
+        if($role_id != 1 && !$allow){
+            $info = Db::name('permission')->alias('per')
+                ->join('role_permission role_per','per.id = role_per.permission_id','left')
+                ->where(['per.url'=>$url,'role_per.role_id'=>$role_id])
+                ->cache(true)
+                ->find();
+            if(isset($_SERVER['HTTP_REFERER'])){
+                $ref_url = $_SERVER['HTTP_REFERER'];
+            }else{
+                $ref_url = '/admin/menu/index';
+            }
+            if(!$info){
+                if(in_array(strtolower($request),['post','ajax'])){
+                    $error_data['data'] = '';
+                    $error_data['msg'] = '您没有此权限！';
+                    $error_data['code'] = 500;
+                    echo json_encode($error_data);die();
+                }else{
+                    echo "<script>alert('您没有此权限');window.location.href='$ref_url'</script>";
+                }
+            }
+        }
+    }
+
+    // 不需要判断权限的接口
+    public function allowUrl($action,$controller){
+        $url = $controller.'/'.$action;
+        if (in_array(strtolower($url),['rechargerecord/recordlist','menu/index','menu/build','menu/main'])) {
+            return true;
+        }else{
+            return false;
+        }
     }
 }
