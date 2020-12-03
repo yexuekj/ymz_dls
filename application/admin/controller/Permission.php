@@ -65,6 +65,11 @@ class Permission extends Base
         return parent::queryWhere();
     }
 
+    public function  beforeDel($param,$id){
+        $param['del'] = true;
+        return $param;
+    }
+
 
 
 

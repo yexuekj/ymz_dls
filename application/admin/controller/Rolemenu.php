@@ -95,6 +95,13 @@ class Rolemenu extends Base
     }
 
 
+    public function  beforeDel($param,$id){
+        $param['del'] = true;
+        return $param;
+    }
+
+
+
 
 
 
