@@ -2,6 +2,7 @@
 
 namespace app\admin\controller;
 
+use app\model\RechargeRecordModel;
 use think\Db;
 use think\Request;
 
@@ -9,7 +10,35 @@ class Rechargerecord extends Base
 {
     public function __construct(Request $app)
     {
-//        parent::__construct($app);
+        parent::__construct($app);
+        $this->model = RechargeRecordModel::class;
+    }
+
+    public function index(){
+        return parent::index();
+    }
+
+    /**
+     * 返回前数据操作
+     * @param $data
+     * @return mixed
+     */
+    public function afterIndexAjax($data)
+    {
+        foreach ($data as &$v){
+            if(!empty($v['create_time'])){
+                $v['create_time'] = date('Y-m-d H:i:s',$v['create_time']);
+            }
+        }
+       return  parent::afterIndexAjax($data);
+    }
+
+    public function queryWhere()
+    {
+        if(!empty($this->param['host'])){
+            $this->param[] = ['re_record.host','like','%'.trim($this->param['host']).'%'];
+        }
+        return parent::queryWhere();
     }
 
 
@@ -33,7 +62,7 @@ class Rechargerecord extends Base
         }
         $rechargeModel =  Db::name('recharge_record');
         $orderby = 'id desc';
-        $field = 'id,host,minutes,from_unixtime(create_time,"%Y-%m-%d %H:%i:%s") create_time';
+        $field = 'id,host,minutes,from_unixtime(create_time,"%Y-%m-%d %H:%i:%s") create_time,type';
         if($type == 'export'){
             // 导出
             $resdata = $rechargeModel->where($wheresql)->where($where)->field($field)->order($orderby)->select();
