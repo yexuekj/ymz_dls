@@ -173,9 +173,9 @@ class Userhost extends Base
             }
 
             if(isset($param['number'])){
-//                if($param['number'] < 0){
-//                    return $this->error([],'充值数量必须大于0');
-//                }
+                if(!is_int(abs($param['number']))){
+                    return $this->error([],'请输入整数');
+                }
                 $user = Db::table('user')->where('id',$info['user_id'])->find();
                 $recharge_type = $param['recharge_type'];
                 if($user['price'] < $param['number'] && $recharge_type == 1){
