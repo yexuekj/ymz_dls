@@ -35,6 +35,15 @@ class Rechargerecord extends Base
 
     public function queryWhere()
     {
+        $role = $this->role_id;
+        $uid = $this->uid;
+        // 代理商查看自己的充值记录
+        if($role == 2){
+            $info  = Db::table('user_host')->where('user_id',$uid)->select();
+            $allHost = array_column($info,'host');
+            $this->param[] = ['re_record.host','in',$allHost];
+        }
+
         if(!empty($this->param['host'])){
             $this->param[] = ['re_record.host','like','%'.trim($this->param['host']).'%'];
         }
