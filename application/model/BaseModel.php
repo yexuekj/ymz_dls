@@ -17,6 +17,7 @@ class BaseModel extends Model
     {
         $data = [];
         $this->indexAjaxParam($params);
+        $action = isset($_REQUEST['action_export']) ? $_REQUEST['action_export'] : '';  //导出
         $alias = $this->indexAjaxParams['alias'];
         $field = $this->indexAjaxParams['field'];
         $join = $this->indexAjaxParams['join'];
@@ -52,7 +53,7 @@ class BaseModel extends Model
             $data[] = $model->count();
         }
 
-        if($page_status){
+        if($page_status &&  $action != 'export'){
             if($select){
                 $data[] = $model->page($page,$limit)->select();
             }else{

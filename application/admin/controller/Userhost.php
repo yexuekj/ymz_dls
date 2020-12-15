@@ -107,9 +107,10 @@ class Userhost extends Base
 
     public function afterIndexAjax($data)
     {
-        $parmas = $_GET;
+        $parmas = $_REQUEST;
+        $user_table = Db::table('user_host');
         foreach ($data as &$v){
-            $v['user_total'] = Db::table('user_host')->where('user_id',$v['id'])->count();
+            $v['user_total'] = $user_table->where('user_id',$v['id'])->count();
             if(isset($parmas['search_type']) && $parmas['search_type']== 'all'){
                 $res = $this->getData($v);
                 $v['key_0'] = $res['axb_reamin'];
