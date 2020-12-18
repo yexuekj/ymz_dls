@@ -329,5 +329,13 @@ function returnAjax($code=0,$msg='success',$data=array(),$url=''){
     return json_encode($result,256);
 }
 
+// redis连接
+function initRedis(){
+    $redis= new \Redis();
+    $redis->connect('127.0.0.1', 6379);
+    $redis->auth('ymz2020');
+    return $redis;
+}
+
 
 

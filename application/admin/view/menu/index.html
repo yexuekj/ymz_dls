@@ -34,6 +34,11 @@
                 可分配分钟数 {$user.price} 分钟
             </li>
             {/if}
+            {if($role_id == 1)}
+            <li class="layui-nav-item" >
+                剩余分钟数 {$balance|default=0} 分钟
+            </li>
+            {/if}
             <li class="layui-nav-item" >
                 <a href="javascript:;">
                     <img src='http://t.cn/RCzsdCq' class="layui-nav-img">

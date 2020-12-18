@@ -45,6 +45,12 @@ class Menu extends Base
             }
         }
 
+       // 移动余额
+       $redis = initRedis();
+       $balance = $redis->get('move_balance');
+       $balance= $balance ? $balance : 0;
+       $this->assign('balance',$balance);
+
        $this->assign('info',$info);
        return view();
     }
