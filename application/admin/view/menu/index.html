@@ -53,7 +53,7 @@
                 </a>
 
             </li>
-
+            <li class="layui-nav-item"><a onclick="changePwd()">修改密码</a></li>
             <li class="layui-nav-item"><a href="{:url('Login/loginOut')}">退出</a></li>
         </ul>
     </div>
@@ -122,6 +122,22 @@
                 type: 'iframe'
             }).init();
         });
+        // 修改密码
+        function changePwd(){
+            var urlpwd = '{:url("Menu/changePwd")}';
+            layer.open({
+                type: 2,
+                title: '修改密码',
+                shadeClose: true,
+                shade: 0.5,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['50%', '40%'],
+                content: urlpwd,
+                end: function () {
+
+                },
+            });
+        }
     </script>
 </div>
 </body>

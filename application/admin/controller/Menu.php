@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\common\mongo\MongoDb;
 use app\model\MenuModel;
+use app\model\UserModel;
 use think\App;
 use think\Db;
 use think\Request;
@@ -71,6 +72,28 @@ class Menu extends Base
     public function table()
     {
         return 'hello world';
+    }
+
+    // 修改密码
+    public function changePwd(){
+        if($this->request->isPost()){
+            $id = $this->uid;
+            $param = $_REQUEST;
+            $usertable =new UserModel();
+            $where = array('id'=>$id);
+            $adminInfo = $usertable->where($where)->find();
+            if(md5($param['old_password']) != $adminInfo['password']){
+                return $this->error([],'旧密码填写错误',500);
+            }else{
+                $new_password = md5($param['new_password']);
+                $res = $usertable->where($where)->update(['password'=>$new_password]);
+                if($res !== false){
+                    return $this->success([],'修改密码成功',200);
+                }
+            }
+        }else{
+          return view();
+        }
     }
 
 }
