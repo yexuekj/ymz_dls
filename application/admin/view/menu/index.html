@@ -36,6 +36,7 @@
             <li class="layui-nav-item" style="margin-left: 30px">
                 axb可分配分钟数 {$user.axb_price} 分钟
             </li>
+            <li class="layui-nav-item"><a onclick="changePwd()">修改密码</a></li>
             {/if}
             {if($role_id == 1)}
             <li class="layui-nav-item" >
@@ -53,7 +54,6 @@
                 </a>
 
             </li>
-            <li class="layui-nav-item"><a onclick="changePwd()">修改密码</a></li>
             <li class="layui-nav-item"><a href="{:url('Login/loginOut')}">退出</a></li>
         </ul>
     </div>
