@@ -42,6 +42,11 @@ class RechargeRecordModel extends BaseModel
             'fixed'=> true,
             'templet'=>true
         ],
+        'remark' => [
+          'name'=>'备注',
+          'width'=>'200',
+          'edit'=>'text'
+        ],
         'create_time' => [
             'name'=>'创建时间',
             'width'=>'250',

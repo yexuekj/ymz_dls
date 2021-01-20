@@ -11,7 +11,7 @@
     </blockquote>
 
     <div class="demoTable layui-for">
-        <table class="layui-table" lay-data="{height:'full-100', url:'{$index}', page:true, id:'tableId'}" lay-filter="test">
+        <table class="layui-table" lay-data="{height:'full-100', url:'{$index}', page:true, id:'tableId'}" lay-filter="rechargeTable">
             <thead>
             <tr>
 <!--                <th lay-data="{field:'id', width:80, sort: true,type:'numbers'}">ID</th>-->
@@ -26,6 +26,9 @@
                         {/if}
                         {if($k == 'ID')}
                             ,sort: true,type:'numbers'
+                        {/if}
+                        {if(!empty($v['edit']))}
+                            ,edit: '{$k}'
                         {/if}
 
                  }">{$v['name']}</th>
@@ -69,9 +72,26 @@
         });
 
         //监听表格复选框选择
-        table.on('checkbox(tableFilter)', function(obj){
+        table.on('checkbox(rechargeTable)', function(obj){
             console.log(obj)
         });
+
+
+      //监听单元格编辑
+      table.on('edit(rechargeTable)', function(obj){
+        var value = obj.value //得到修改后的值
+          ,data = obj.data //得到所在行所有键值
+
+        $.post('/admin/Rechargerecord/editAjax', {id:data.id,remark:value},function (obj) {
+          if(obj.code==200){
+            parent.layer.msg(obj.msg, {icon: 6,time: 1000});
+          }
+          if(obj.code==500){
+            parent.layer.msg(obj.msg, {icon: 5,time: 1000});
+          }
+          location.reload();
+        },"JSON");
+      });
 
 
     });
