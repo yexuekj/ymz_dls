@@ -195,7 +195,8 @@ class Userhost extends Base
                     'host'=>$info['host'],
                     'minutes'=>$param['number'],
                     'type'=>$recharge_type,
-                    'create_time'=>time()
+                    'create_time'=>time(),
+                    "remark"=>trim($param['remark'])
                 ];
                 $recharge_res = Db::table('recharge_record')->insertGetId($insertData);
 
