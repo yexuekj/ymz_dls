@@ -30,6 +30,13 @@ class Rechargerecord extends Base
                 $v['create_time'] = date('Y-m-d H:i:s',$v['create_time']);
             }
         }
+        $userModel =  Db::name('user');
+        foreach($data as $k=>&$v){
+          if($v['is_admin'] == 1){
+            $name = $userModel->where('id = '.$v['host'])->value('user_name');
+            $v['host'] = $name;
+          }
+        }
        return  parent::afterIndexAjax($data);
     }
 

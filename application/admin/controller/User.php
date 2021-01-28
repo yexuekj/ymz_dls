@@ -62,6 +62,18 @@ class User extends Base
                 $recharge_type = $param['recharge_type'];
                 $price_name = $recharge_type == 1 ? 'price' : 'axb_price';
                 $res = Db::table('user')->where('id',$param['id'])->setInc($price_name,$param['price']);
+
+                // 添加充值记录
+                $insertData = [
+                  'host'=>$param['id'],
+                  'minutes'=>$param['price'],
+                  'type'=>$recharge_type,
+                  'create_time'=>time(),
+                  "remark"=>'',
+                  'is_admin'=>1
+                ];
+                $recharge_res = Db::table('recharge_record')->insertGetId($insertData);
+
             }
             if($res){
                 return $this->success();
