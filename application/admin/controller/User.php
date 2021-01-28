@@ -62,10 +62,10 @@ class User extends Base
                 $recharge_type = $param['recharge_type'];
                 $price_name = $recharge_type == 1 ? 'price' : 'axb_price';
                 $res = Db::table('user')->where('id',$param['id'])->setInc($price_name,$param['price']);
-
+                $user_name = Db::table('user')->where('id',$param['id'])->value('user_name');
                 // 添加充值记录
                 $insertData = [
-                  'host'=>$param['id'],
+                  'host'=>$user_name,
                   'minutes'=>$param['price'],
                   'type'=>$recharge_type,
                   'create_time'=>time(),
