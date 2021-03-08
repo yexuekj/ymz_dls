@@ -374,7 +374,7 @@ class Base extends Controller
     // 不需要判断权限的接口
     public function allowUrl($action,$controller){
         $url = $controller.'/'.$action;
-        if (in_array(strtolower($url),['rechargerecord/recordlist','menu/index','menu/build','menu/main'])) {
+        if (in_array(strtolower($url),['rechargerecord/recordlist','menu/index','menu/build','menu/main','userhost/gethostlist','userhost/getuser'])) {
             return true;
         }else{
             return false;
