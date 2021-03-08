@@ -245,7 +245,7 @@ class Userhost extends Base
 
     public function getuser(){
         $list = Db::name('user')->select();
-        return ['status'=>1,'msg'=>'Success','data'=>$list];
+        return json_encode(['status'=>1,'msg'=>'Success','data'=>$list]);
     }
 
     public function gethostlist(){
@@ -253,7 +253,7 @@ class Userhost extends Base
         $where = [];
         if (!empty($user_id)) $where['user_id'] = $user_id;
         $list = Db::name('user_host')->where($where)->field('id,host,ip')->select();
-        return ['status'=>1,'msg'=>'Success','data'=>$list];
+        return json_encode(['status'=>1,'msg'=>'Success','data'=>$list]);
     }
 
 }
