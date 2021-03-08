@@ -244,7 +244,7 @@ class Userhost extends Base
     }
 
     public function getuser(){
-        $list = Db::name('user')->select();
+        $list = Db::name('user')->field('id,user_name')->select();
         return json_encode(['status'=>1,'msg'=>'Success','data'=>$list]);
     }
 
