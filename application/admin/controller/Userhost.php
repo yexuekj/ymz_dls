@@ -250,8 +250,9 @@ class Userhost extends Base
 
     public function gethostlist(){
         $user_id = $this->request->param('user_id');
+        $user_id = explode(',',$user_id);
         $where = [];
-        if (!empty($user_id)) $where['user_id'] = $user_id;
+        if (!empty($user_id)) $where['user_id'] = ['in',$user_id];
         $list = Db::name('user_host')->where($where)->field('id,host,ip')->select();
         return json_encode(['status'=>1,'msg'=>'Success','data'=>$list]);
     }
