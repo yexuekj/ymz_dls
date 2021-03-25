@@ -52,5 +52,10 @@ class Login extends Controller
     }
 
 
-
+    public function helpList()
+    {
+        $param = $this->request->param();
+        $info = Db::table('help')->select();
+        return json(['data' => $info]);
+    }
 }
