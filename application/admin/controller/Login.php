@@ -56,6 +56,6 @@ class Login extends Controller
     {
         $param = $this->request->param();
         $info = Db::table('help')->select();
-        return json(['data' => $info]);
+        return json(['data' => $info ,'info' => 'Success' ,'status' => 1]);
     }
 }
