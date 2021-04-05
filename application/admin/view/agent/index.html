@@ -7,6 +7,7 @@
                 <input type="text" placeholder="请输入域名" name="host" class="layui-input">
             </div>
             <button class="layui-btn " data-type="reload"><i class="layui-icon">&#xe615;</i>搜索</button>
+            <button class="layui-btn export" style="float: right" ><i class="layui-icon">&#xe67d;</i>导出</button>
         </div>
     </blockquote>
 
@@ -33,6 +34,10 @@
             </tr>
             </thead>
         </table>
+        <div style="display: none;">
+            <table id="data_export">
+            </table>
+        </div>
     </div>
 </div>
 {include file='common/footer'}
@@ -41,13 +46,14 @@
         var table = layui.table
             ,form = layui.form;
         //搜索提交
+        var host = '';
         var $ = layui.$, active = {
             reload: function(){
-                var host_name = $('input[name="host"]').val();
+                 host = $('input[name="host"]').val();
                 //执行重载
                 table.reload('tableId', {
                     where: {
-                        host:host_name,
+                        host:host,
                     }
                 });
             }
@@ -63,7 +69,47 @@
             console.log(obj)
         });
 
+        var extable = table.render({
+            elem: '#data_export',
+            id:'all_export',
+            title: '坐席开通记录',
+            cols: [[ //表头
+                 {
+                    field: 'host',
+                    title: '域名',
+                }, {
+                    field: 'open_num',
+                    title: '开通数量',
+                },
+                 {
+                    field: 'open_time',
+                    title: '开通日期',
+                }
+            ]]
+        });
+        var exurl = '{$index}'+'?action_export=export';
+        //导出按钮
+        $(".export").click(function () {
+            var loading = layer.msg('正在导出', {icon: 16, shade: 0.3, time:0});
+            //使用ajax请求获取所有数据
+            $.ajax({
+                url: exurl,
+                type: 'post',
+                data: {
+                    search_type:'all',
+                    host:host,
+                    action_export:'export'
+                },
+                async: false,
+                dataType: 'json',
+                success: function (res) {
+                    //使用table.exportFile()导出数据
+                    table.exportFile("all_export", res.data, 'csv');
+                    layer.close(loading)
+                }
+            });
 
+        });
     });
 </script>
 

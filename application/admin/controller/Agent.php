@@ -52,10 +52,13 @@ class Agent extends Base
             }
         }
         $count = count($all_arr);
-        $limit = $param['limit'];
-        $page = $param['page'];
-        $offset = $limit*($page - 1);
-        $all_arr = array_slice($all_arr,$offset,$limit);
+        if(!empty($param['action_export']) && $param['action_export']  != 'export'){
+            $limit = $param['limit'];
+            $page = $param['page'];
+            $offset = $limit*($page - 1);
+            $all_arr = array_slice($all_arr,$offset,$limit);
+        }
+
         if($count>0){
             return $this->success($all_arr,'',0,['count' => $count]);
         }else{
