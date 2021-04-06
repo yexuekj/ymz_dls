@@ -52,7 +52,7 @@ class Agent extends Base
             }
         }
         $count = count($all_arr);
-        if(!empty($param['action_export']) && $param['action_export']  != 'export'){
+        if(empty($param['action_export'])){
             $limit = $param['limit'];
             $page = $param['page'];
             $offset = $limit*($page - 1);
