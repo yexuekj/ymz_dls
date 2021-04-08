@@ -43,9 +43,9 @@ class BaseException extends Handle
 //        if($e->getCode()=='404'){
 //            return $this->error([],$e->getMessage(),$e->getCode());
 //        }
-//         return $this->error([],$e->getMessage(),503);
+        return $this->error([],$e->getMessage(),500);
         //可以在此交由系统处理
-        return parent::render($e);
+        // return parent::render($e);
 
     }
 }

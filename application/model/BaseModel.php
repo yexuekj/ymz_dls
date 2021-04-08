@@ -29,7 +29,6 @@ class BaseModel extends Model
         $page = $this->indexAjaxParams['page'] ?? 1;
         $limit = $this->indexAjaxParams['limit'] ?? 10;
 
-
         if($this->db){
             $model = Db::connect($this->db_config)->table($this->table)->alias($alias)
                 ->field($field)

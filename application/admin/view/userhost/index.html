@@ -170,8 +170,16 @@
                 async: false,
                 dataType: 'json',
                 success: function (res) {
-                    //使用table.exportFile()导出数据
-                    table.exportFile("all_export", res.data, 'csv');
+                    if(res.code == 200){
+                        //使用table.exportFile()导出数据
+                        table.exportFile("all_export", res.data, 'csv');
+                    }else{
+                        layer.msg(res.msg,{
+                          icon: 2,
+                          time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                        })
+                    }
+                 
                     layer.close(loading)
                 }
             });
