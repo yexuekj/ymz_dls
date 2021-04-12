@@ -18,6 +18,8 @@
 
             {if($role_id == 1)}
             <button class="layui-btn addInfo" style="margin:0;"><i class="layui-icon">&#xe654;</i> 添加域名</button>
+            {else/}
+            <button class="layui-btn addInfo_1" style="margin:0;"><i class="layui-icon">&#xe654;</i> 添加域名</button>
             {/if}
             <button class="layui-btn "  data-type="reload"  data-id='all' style="margin:0;"><i class="layui-icon">&#xe63c;</i> 查询全部</button>
             <button class="layui-btn " data-type="reload"  data-id='1'><i class="layui-icon">&#xe615;</i>搜索</button>
@@ -352,6 +354,21 @@
                 maxmin: true,
                 area: ['100%', '100%'],
                 content: url,
+                end: function () {
+                    table.reload('tableId');
+                },
+            });
+        });
+
+        $('.addInfo_1').on('click', function() {
+            layer.open({
+                type: 2,
+                title: '添加域名',
+                shadeClose: true,
+                shade: false,
+                maxmin: true,
+                area: ['100%', '100%'],
+                content: '/admin/userhost/dls_add',
                 end: function () {
                     table.reload('tableId');
                 },

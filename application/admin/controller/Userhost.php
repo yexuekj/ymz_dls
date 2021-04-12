@@ -264,4 +264,42 @@ class Userhost extends Base
         return json_encode(['status'=>1,'msg'=>'Success','data'=>$list]);
     }
 
+
+    public function dls_add()
+    {
+        $param = $this->request->param();
+        if(!empty($param['id'])){
+            $data = Db::table('userhost')->where('id',$param['id'])->find();
+            $this->assign('data',$data);
+        }
+        $this->assign('user_id',$this->uid);
+        return $this->fetch('userhost/dlsadd');
+    }
+
+
+    public function dlsSave()
+    {
+        $param = $this->request->param();
+        $data = [
+            'host' => $param['host'],
+            'user_id' => $this->uid,
+            'ip' => $param['ip'],
+            'total_set' => $param['total_set'],
+            'ipdata_id' => 0,
+        ];
+        if(!empty($param['id'])){
+            $data['updated_at'] = time();
+            $res = Db::table('user_host')->where('id',$param['id'])->update($data);
+        }else{
+            $r = Db::table('user_host')->where('host',$param['host'])->find();
+            if($r) return $this->error([],'域名已存在');
+            $data['created_at'] = time();
+            $res = Db::table('user_host')->insert($data);
+        }
+        if($res){
+            return $this->success();
+        }else{
+            return $this->error();
+        }
+    }
 }
