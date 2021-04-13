@@ -333,7 +333,7 @@ function returnAjax($code=0,$msg='success',$data=array(),$url=''){
 function initRedis(){
     $redis= new \Redis();
     $redis->connect('127.0.0.1', 6379);
-    $redis->auth('');
+//    $redis->auth('');
     return $redis;
 }
 
