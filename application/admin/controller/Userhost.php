@@ -287,18 +287,40 @@ class Userhost extends Base
             'total_set' => $param['total_set'],
             'ipdata_id' => 0,
         ];
-        if(!empty($param['id'])){
-            $data['updated_at'] = time();
-            $res = Db::table('user_host')->where('id',$param['id'])->update($data);
-        }else{
-            $r = Db::table('user_host')->where('host',$param['host'])->find();
-            if($r) return $this->error([],'域名已存在');
-            $data['created_at'] = time();
-            $res = Db::table('user_host')->insert($data);
-        }
-        if($res){
+        try{
+            Db::startTrans();
+            if(!empty($param['id'])){
+                $data['updated_at'] = time();
+                Db::table('user_host')->where('id',$param['id'])->update($data);
+            }else{
+                $id = Db::connect([
+                    'type'            => 'mysql',
+                    // 服务器地址
+                    'hostname'        => '47.103.152.142',
+                    // 数据库名
+                    'database'        => 'master_control',
+                    // 用户名
+                    'username'        => 'master_control',
+                    // 密码
+                    'password'        => 'ymz@2020',
+                    // 端口
+                    'hostport'        => '3306',
+                ])->table('ipdata')->insertGetId([
+                    'ip' => gethostbyname($param['host']),
+                    'domain_name' => $param['host'],
+                    'fronted_domain_name' => $param['host'],
+                    'type' => 1
+                ]);
+                $data['ipdata_id'] = $id;
+                $r = Db::table('user_host')->where('host',$param['host'])->find();
+                if($r) return $this->error([],'域名已存在');
+                $data['created_at'] = time();
+                Db::table('user_host')->insert($data);
+            }
+            Db::commit();
             return $this->success();
-        }else{
+        }catch (Exception $e){
+            Db::rollback();
             return $this->error();
         }
     }
