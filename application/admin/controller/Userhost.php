@@ -269,7 +269,7 @@ class Userhost extends Base
     {
         $param = $this->request->param();
         if(!empty($param['id'])){
-            $data = Db::table('userhost')->where('id',$param['id'])->find();
+            $data = Db::table('user_host')->where('id',$param['id'])->find();
             $this->assign('data',$data);
         }
         $this->assign('user_id',$this->uid);
