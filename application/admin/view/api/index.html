@@ -1,0 +1,725 @@
+{include file='common/head'}
+
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px">
+        {$title}
+    </blockquote>
+    {if($type == 1)}
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>1. AXB 小号拨打</p>
+        <p>接口地址：http://xhzz.ymz666.com/index/index/axbCallApi</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>axb 验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>mobile</td>
+                    <td>string</td>
+                    <td>呼叫手机号</td>
+                </tr>
+                <tr>
+                    <td>axb_number</td>
+                    <td>string</td>
+                    <td>axb 小号号码</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 500px;margin-top: 20px">
+{ "data":
+      {
+        "axb_number": "178******47", //axb 小号号码
+        "mobile": "183******79", //呼叫手机号
+        "subid": "07202011271338537655024725" //唯一标识
+      },
+        "info": "Success",
+        "status": 1 // 状态 1：成功 0:失败
+}
+      </pre>
+        </div>
+
+
+
+
+
+
+
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>2. AXB 小号获取话单</p>
+        <p>接口地址：http://xhzz.ymz666.com/index/index/axbCallRecord</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>axb 验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>subid</td>
+                    <td>string</td>
+                    <td>呼叫唯一标识</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 800px;margin-top: 20px">
+{ "data":
+    {
+        "subid": "07202011271417365654644930", //唯一标识
+        "callid": "72020112714181107955378640",
+        "callerNumber": "173******74", //主叫号码
+        "calledNumber": "131******46", //被叫号码
+        "xNumber": "178******47", //axb 小号号码
+        "starttime": "2020-11-27 14:18:11", //开始时间
+        "releasetime": "2020-11-27 14:18:11", //结束时间
+        "callDuration": "0", //呼叫时长
+        "finishType": "0",
+        "finishState": "9",
+        "releasecause": 1,
+        "recordUrl": "http://121.41.131.18/records/07202011271417365654644930.wav" //录音地址
+    },
+        "info": "Success",
+        "status": 1 // 状态 1：成功 0:失败
+}
+      </pre>
+        </div>
+
+
+
+
+
+
+
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>3. AXB 小号解绑</p>
+        <p>接口地址：http://xhzz.ymz666.com/index/index/axbCallUnbind</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>axb 验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>subid</td>
+                    <td>string</td>
+                    <td>呼叫唯一标识</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 500px;margin-top: 20px">
+{
+    "data": "",
+    "info": "AXB 小号解绑成功！",
+    "status": 1 // 状态 1：成功 0:失败
+}
+      </pre>
+        </div>
+
+
+
+
+
+
+
+    </blockquote>
+    {/if}
+    {if($type == 2)}
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>1. 拨打电话</p>
+        <p>接口地址：http://boss.ymz666.com/index.php/api/index/dialNumber</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>appkey唯一值/td>
+                </tr>
+                <tr>
+                    <td>mobile</td>
+                    <td>string</td>
+                    <td>被叫号码</td>
+                </tr>
+                <tr>
+                    <td>caller</td>
+                    <td>string</td>
+                    <td>主叫号码</td>
+                </tr>
+                <tr>
+                    <td>appid</td>
+                    <td>string</td>
+                    <td>ecp的appid</td>
+                </tr>
+                <tr>
+                    <td>ecpid</td>
+                    <td>string</td>
+                    <td>ecp的ecpid</td>
+                </tr>
+                <tr>
+                    <td>caller</td>
+                    <td>string</td>
+                    <td>主叫号码</td>
+                </tr>
+                <tr>
+                    <td>dial_type</td>
+                    <td>string</td>
+                    <td>1：老号码呼叫 2：新号码呼叫 (默认1)</td>
+                </tr>
+
+                </tbody>
+            </table>
+            <!--<pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 500px;margin-top: 20px">-->
+            <!--{ "data":-->
+            <!--{-->
+            <!--"axb_number": "178******47", //axb 小号号码-->
+            <!--"mobile": "183******79", //呼叫手机号-->
+            <!--"subid": "07202011271338537655024725" //唯一标识-->
+            <!--},-->
+            <!--"info": "Success",-->
+            <!--"status": 1 // 状态 1：成功 0:失败-->
+            <!--}-->
+            <!--</pre>-->
+        </div>
+
+
+
+
+
+
+
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>2. 通话记录</p>
+        <p>接口地址：http://boss.ymz666.com/index.php/api/index/getRecordListNewApi</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>caller</td>
+                    <td>string</td>
+                    <td>主叫号码</td>
+                </tr>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>appkey唯一值</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 800px;margin-top: 20px">
+{
+    "code": 1,
+    "msg": "Success",
+    "data": {
+        "info": [
+            {
+                "id": 6208,
+                "caller_id_number": "131****1146",  // 主叫号码
+                "destination_number": "****",       // 主叫号码
+                "owner_user_id": 2,
+                "duration": "0",                    // 时长
+                "created_time_stamp": 1603676356,
+                "created_time": "2020-10-26  09:39:16", // 呼叫时间
+                "hangup_time": "1970-01-01 08:00:00",   // 挂断时间
+                "file_path": "",         // 录音文件名
+                "review": 0,
+                "is_connected": 0,      // 是否接通 1：接通 0：未接通
+                "callout_num": 0,
+                "is_identify": 0,
+                "minutes": "0",                     // 分钟数
+                "callSid": "5b0fbb43-05ba-4cab-a418-737350af4ed7"  // 拨打唯一值
+            }
+        ]
+    },
+    "url": ""
+}
+      </pre>
+        </div>
+
+
+
+
+
+
+
+    </blockquote>
+    {/if}
+    {if($type == 3)}
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>1. AXB 小号拨打</p>
+        <p>接口地址：http://xhzz.ymz666.com/index/index/axbCallDjApi</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>axb 验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>mobile_a</td>
+                    <td>string</td>
+                    <td>主叫号码</td>
+                </tr>
+                <tr>
+                    <td>axb_number</td>
+                    <td>string</td>
+                    <td>axb 小号号码</td>
+                </tr>
+                <tr>
+                    <td>mobile_b</td>
+                    <td>string</td>
+                    <td>被叫号码</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 500px;margin-top: 20px">
+{ "data":
+      {
+        "axb_number": "178******47", //axb 小号号码
+        "mobile_a": "183******79", //主叫
+        "mobile_b": "183******79", //被叫
+        "subid": "07202011271338537655024725" //唯一标识
+      },
+        "info": "Success",
+        "status": 1 // 状态 1：成功 0:失败
+}
+      </pre>
+        </div>
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>2. AXB 小号获取话单</p>
+        <p>接口地址：http://xhzz.ymz666.com/index/index/axbCallDjRecord</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>axb 验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>subid</td>
+                    <td>string</td>
+                    <td>呼叫唯一标识</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 800px;margin-top: 20px">
+{ "data":
+    {
+        "requestId": "ax20210114095404C0A80A1207245328", //业务 ID
+        "telA": "175****5668", //主叫号码
+        "telX": "130****7746", //小号号码
+        "telB": "159****6520", //被叫号码
+        "subid": "A2021011*********0A1803364547", //绑定唯一 ID
+        "calltype": "10",
+        "calltime": "2021-01-14 09:53:37", //呼叫时间
+        "ringingtime": "2021-01-14 09:53:39", //响铃时间
+        "starttime": "2021-01-14 09:54:03", //通话开始时间
+        "releasetime": "2021-01-14 09:54:03", //通话结束时间
+        "callid": "CJL210114095337C0A80A1A05514780", //通话标识
+        "releasedir": "2",
+        "releasecause": "31",
+        "callrecording": "0",
+        "recordUrl": "", //录音地址
+        "ringRecordUrl": "",
+        "calldisplay": "17502525668",
+        "calleeState": "14
+    },
+        "info": "Success",
+        "status": 1 // 状态 1：成功 0:失败
+}
+      </pre>
+        </div>
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>3. AXB 小号解绑</p>
+        <p>接口地址：http://xhzz.ymz666.com/index/index/axbCallDjUnbind</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>axb 验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>subid</td>
+                    <td>string</td>
+                    <td>呼叫唯一标识</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 500px;margin-top: 20px">
+{
+    "data": "",
+    "info": "AXB 小号解绑成功！",
+    "status": 1 // 状态 1：成功 0:失败
+}
+      </pre>
+        </div>
+
+
+
+
+
+
+
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>4. 获取话费余额</p>
+        <p>接口地址：http://boss.ymz666.com/admin/manage/getBalance</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>axb 验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>subid</td>
+                    <td>string</td>
+                    <td>呼叫唯一标识</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 500px;margin-top: 20px">
+{
+    "code": 1, // 状态 1：成功 0:失败
+    "msg": "Success！",
+    "data": {
+        "name": "鸿策网络 AXB 正式", //名称
+        "remain_minutes": 3 //剩余分钟数
+    },
+    "url": ""
+}
+      </pre>
+        </div>
+    </blockquote>
+    {/if}
+    {if($type == 4)}
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>1. 移动回拨呼叫</p>
+        <p>接口地址：http://xhzz.ymz666.com/index/index/movecall</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>mobile</td>
+                    <td>string</td>
+                    <td>被叫号码</td>
+                </tr>
+                <tr>
+                    <td>caller</td>
+                    <td>string</td>
+                    <td>主叫号码</td>
+                </tr>
+                <tr>
+                    <td>callerCli</td>
+                    <td>string</td>
+                    <td>移动小号（非必传）</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 500px;margin-top: 20px">
+{ "data":
+      {
+        "caller": "183******79", //主叫
+        "callee": "183******79", //被叫
+        "subid": "07202011271338537655024725" //唯一标识
+      },
+        "info": "Success",
+        "status": 1 // 状态 1：成功 0:失败
+}
+      </pre>
+        </div>
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>2. 移动回拨获取话单</p>
+        <p>接口地址：http://xhzz.ymz666.com/index/index/movecallRecord</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>subid</td>
+                    <td>string</td>
+                    <td>呼叫唯一标识</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 800px;margin-top: 20px">
+{ "data":
+    {
+        "appId": "4199195da***************d1cf",
+        "userData": "true",
+        "sessionId": "wab1200_12207_********_20210317113337", //呼叫唯一标识
+        "callerCli": "+86*******",
+        "caller": "+86183****0879", //主叫号码
+        "calleeCli": "+86183****0879",
+        "callee": "+86177****1596", //被叫号码
+        "startTime": "2021-03-17 19:33:44", //开始时间
+        "alertingTime": "2021-03-17 19:33:48", //响铃时间
+        "answerTime": "2021-03-17 19:33:52", //接通时间
+        "endTime": "2021-03-17 19:33:59", //结束时间
+        "failTime": null,
+        "failRsn": 0,
+        "initcallStartTime": "2021-03-17 19:33:37",
+        "initcallAlertingTime": "2021-03-17 19:33:42",
+        "initcallAnswerTime": "2021-03-17 19:33:44",
+        "initcallFailRsn": 0,
+        "record": 1,
+        "recordTime": "2021-03-17 19:33:52",
+        "recordUrl": "https://111.44.229.177:9443/BD677%2F20210317%2F%2Fs3%2Faws4_request&X", //录音
+        "status": 0
+    },
+        "info": "Success",
+        "status": 1 // 状态 1：成功 0:失败
+}
+      </pre>
+        </div>
+    </blockquote>
+    <blockquote class="layui-elem-quote layui-text" style="font-size: 16px;border-left: 0px;line-height: 35px;">
+        <p>3. 获取话费余额</p>
+        <p>接口地址：http://boss.ymz666.com/admin/manage/getBalance</p>
+        <p>请求参数 【POST】</p>
+
+        <div class="layui-form" style="margin-top: 20px">
+            <table class="layui-table" style="width: 500px">
+                <thead>
+                <tr>
+                    <th>参数名</th>
+                    <th>类型</th>
+                    <th>说明</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>appkey</td>
+                    <td>string</td>
+                    <td>axb 验证秘钥</td>
+                </tr>
+                <tr>
+                    <td>subid</td>
+                    <td>string</td>
+                    <td>呼叫唯一标识</td>
+                </tr>
+                </tbody>
+            </table>
+            <pre class="layui-code" lay-title="Response" lay-skin="notepad" style="width: 500px;margin-top: 20px">
+{
+    "code": 1, // 状态 1：成功 0:失败
+    "msg": "Success！",
+    "data": {
+        "name": "鸿策网络 AXB 正式", //名称
+        "remain_minutes": 3 //剩余分钟数
+    },
+    "url": ""
+}
+      </pre>
+        </div>
+    </blockquote>
+    {/if}
+</div>
+{include file='common/footer'}
+<!--颜色编辑-->
+<script>
+    layui.use(['table','form','laydate','code'], function(){
+        var table = layui.table
+            ,form = layui.form
+            ,laydate = layui.laydate;
+        layui.code({
+            about: false
+        });
+        //搜索提交
+        laydate.render({
+            elem: '#date'
+        });
+        var $ = layui.$, active = {
+            reload: function(){
+                var user_name = $('input[name="user_name"]').val();
+
+                //执行重载
+                table.reload('tableId', {
+                    where: {
+                        user_name:user_name,
+                    }
+                });
+            }
+        };
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(tableFilter)', function(obj){
+            console.log(obj)
+        });
+
+        //表格功能
+        table.on('tool(tableFilter)', function(obj){
+            var data = obj.data;
+            var event=obj.event;
+            switch(event){
+                case 'edit':
+                    layer.open({
+                        type: 2,
+                        title: '编辑更新数据信息',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true, //开启最大化最小化按钮
+                        area: ['100%', '100%'],
+                        content: '?id='+data.id,
+                        end: function () {
+                            table.reload('tableId');
+                        },
+                    });
+                    break;
+            }
+        });
+
+
+
+
+//      添加信息 url跳转路径
+        var url='';
+        $('.addInfo').on('click', function() {
+            layer.open({
+                type: 2,
+                title: '帮助文档',
+                shadeClose: true,
+                shade: false,
+                maxmin: true,
+                area: ['100%', '100%'],
+                content: url,
+                end: function () {
+                    table.reload('tableId');
+                },
+            });
+        });
+
+
+
+
+    });
+</script>
+</body>
+</html>
