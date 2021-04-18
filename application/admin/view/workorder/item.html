@@ -1,0 +1,178 @@
+{include file='common/head'}
+
+<body>
+
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">套餐管理</div>
+                <div class="layui-card-body">
+                    <div class="layui-form layui-form-pane" action="">
+                        <div class="layui-form-item layui-col-xs6 layui-col-md4">
+                            <label class="layui-form-label">标题</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="title"  placeholder="请输入" autocomplete="off" class="layui-input">
+                                <input type="hidden" name="id" value="0" autocomplete="off" class="layui-input">
+                                <input type="hidden" name="act_id" value="{$id | default=0}" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item layui-col-xs6 layui-col-md4">
+                            <label class="layui-form-label">排序</label>
+                            <div class="layui-input-block">
+                                <input type="number" name="order"  placeholder="排序按照由小到大依次在页面当中显示" autocomplete="off" class="layui-input">
+
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">内容</label>
+                                <textarea   name="content" id="content" placeholder="请输入内容" class="layui-textarea" style="height: 200px;width: 500px;"></textarea>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-card-body ">
+                    <table class="layui-hide" id="test" lay-filter="test"></table>
+                </div>
+                <script type="text/html" id="barDemo">
+                    <a class="layui-btn layui-btn-xs " lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+                </script>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+{include file='common/footer'}
+<script>layui.use(['form', 'layer','table','layedit'],
+    function() {
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer;
+        var table = layui.table;
+        var layedit = layui.layedit;
+
+        var ed_index = layedit.build('content', {
+            height: 280 //设置编辑器高度
+            ,width: 480 //设置编辑器高度
+            ,tool: [
+                'strong' //加粗
+                ,'italic' //斜体
+                ,'underline' //下划线
+                ,'del' //删除线
+                ,'|' //分割线
+                ,'left' //左对齐
+                ,'center' //居中对齐
+                ,'right' //右对齐
+            ]
+        });
+
+
+        var act_id = '{$id}';
+        table.render({
+            elem: '#test'
+            ,url:'/admin/activity/item_list?id='+act_id
+            ,cols: [[
+                {field:'id', width:80, title: 'ID', sort: true}
+                ,{field:'title', title: '标题', width: 150}
+                ,{field:'order', title: '排序', width: 100}
+                ,{field:'content', width:1250, title: '内容'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]]
+            ,page: true
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var demoReload = $('#demoReload');
+
+                //执行重载
+                table.reload('test', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        name : demoReload.val()
+                    }
+                }, 'data');
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                $.post('/admin/activity/del_item',{id:data.id},function (obj) {
+                    if(obj.code==200){
+                        parent.layer.msg(obj.msg, {icon: 6,time: 1000});
+                        table.reload('test')
+                    }else{
+                        parent.layer.msg(obj.msg, {icon: 5,time: 1000});
+                    }
+                },"JSON");
+            }else if(obj.event === 'edit'){
+                $('input[name="id"]').val(data.id);
+                $('input[name="title"]').val(data.title);
+                $('input[name="order"]').val(data.order);
+
+                layedit.setContent(ed_index, data.content, false);
+            }
+        });
+
+
+
+        //自定义验证规则
+        form.verify({
+            nikename: function(value) {
+                if (value.length < 5) {
+                    return '昵称至少得5个字符啊';
+                }
+            },
+            pass: [/(.+){6,12}$/, '密码必须6到12位'],
+            repass: function(value) {
+                if ($('#L_pass').val() != $('#L_repass').val()) {
+                    return '两次密码不一致';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data) {
+            data.field['content'] = layedit.getContent(ed_index);
+            console.log(data)
+            $.post('/admin/activity/save_item',data.field,function (obj) {
+                if(obj.code==200){
+                    parent.layer.msg(obj.msg, {icon: 6,time: 1000});
+                    table.reload('test')
+                    $('input[name="id"]').val(0);
+                    $('input[name="title"]').val('');
+                    $('input[name="order"]').val('');
+                    layedit.setContent(ed_index, '', false);
+                }else{
+                    parent.layer.msg(obj.msg, {icon: 5,time: 1000});
+                }
+            },"JSON");
+        });
+
+    });</script>
+
+</body>
+
+</html>

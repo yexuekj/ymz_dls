@@ -1,0 +1,66 @@
+{include file='common/head'}
+<div style="overflow-x: hidden;width: 96%;margin: auto;padding-top: 1rem;">
+    <div class="layui-form layui-form-pane">
+        <input type="hidden" name="id" value="{$data.id|default=''}">
+        <div class="layui-form-item layui-col-md6">
+            <label class="layui-form-label">活动协议</label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="content" style="height: 600px;">{$data['content']|default=''}</textarea>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="demo1">立即提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+{include file='common/footer'}
+<script>
+    layui.use(['form','laydate'], function(){
+        var form = layui.form,
+        laydate = layui.laydate;
+
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        laydate.render({
+            elem: '#test5'
+            ,type: 'datetime'
+        });
+
+        //时间选择器
+        laydate.render({
+            elem: '#test4'
+            ,type: 'datetime'
+        });
+
+        //提交表单
+        var url='/admin/activity/save_content';
+        form.on('submit(demo1)', function(data){
+            $.post(url,data.field,function (obj) {
+                if(obj.code==200){
+                    layer.msg(obj.msg, {icon: 6,time: 1000});
+                }else{
+                    layer.msg(obj.msg, {icon: 5,time: 1000});
+                }
+            },"JSON");
+        });
+
+
+        $('#closeIframe').click(function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+
+    });
+</script>
+
+</body>
+</html>
