@@ -48,7 +48,8 @@ class Menu extends Base
 
        // 移动余额
        $redis = initRedis();
-       $balance = $redis->get('move_balance');
+//       $balance = $redis->get('move_balance');
+       $balance = 1;
        $balance= $balance ? $balance : 0;
        $this->assign('balance',$balance);
 

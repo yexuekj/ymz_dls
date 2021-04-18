@@ -86,14 +86,10 @@
         var $ = layui.$, active = {
             reload: function(){
                 var user_name = $('input[name="user_name"]').val();
-                // var end_time = $('input[name="end_time"]').val();
-                // var id = $('select[name="id"]').val();
                 //执行重载
                 table.reload('tableId', {
                     where: {
-                        start_time:start_time,
-                        end_time:end_time,
-                        ipdata_id:id,
+                        user_name:user_name,
                     }
                 });
             }

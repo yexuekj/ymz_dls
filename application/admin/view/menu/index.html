@@ -31,10 +31,10 @@
         <ul class="layui-nav layui-layout-right" lay-filter="kitNavbar" kit-navbar>
             {if($role_id == 2)}
             <li class="layui-nav-item" >
-                回拨可分配分钟数 {$user.price} 分钟
+                回拨可分配分钟数 {$user.price | default=0 } 分钟
             </li>
             <li class="layui-nav-item" style="margin-left: 30px">
-                axb可分配分钟数 {$user.axb_price} 分钟
+                axb可分配分钟数 {$user.axb_price | default=0 } 分钟
             </li>
             <li class="layui-nav-item"><a onclick="changePwd()">修改密码</a></li>
             {/if}

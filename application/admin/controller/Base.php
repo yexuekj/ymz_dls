@@ -59,7 +59,7 @@ class Base extends Controller
     protected function checkLogin($allow)
     {
         $adminInfo =  Session('adminInfo');
-        if(is_null($adminInfo) && !$allow){
+        if(empty($adminInfo) && !$allow){
             echo "<script>alert('登录凭证过期 请重新登录!');window.location.href='/admin/login/index'</script>";
         }else{
             $this->adminInfo = $adminInfo;
@@ -353,8 +353,8 @@ class Base extends Controller
             $info = Db::name('permission')->alias('per')
                 ->join('role_permission role_per','per.id = role_per.permission_id','left')
                 ->where(['per.url'=>$url,'role_per.role_id'=>$role_id])
-                ->cache(true)
                 ->find();
+
             if(isset($_SERVER['HTTP_REFERER'])){
                 $ref_url = $_SERVER['HTTP_REFERER'];
             }else{
